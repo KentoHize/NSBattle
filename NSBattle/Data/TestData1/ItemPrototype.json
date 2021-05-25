@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 1,
+    "Name": "Obstacle",
+    "DisplayName": "障礙物"
+  },
+  {
+    "ID": 2,
+    "Name": "Iron",
+    "DisplayName": "鐵"
+  }
+]
