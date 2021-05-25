@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area.cs" />
+    <Compile Include="Character.cs" />
     <Compile Include="ItemPrototype.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -101,6 +102,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Data\TestData1\Area.json" />
+    <None Include="Data\TestData1\Character.json" />
+    <None Include="Data\TestData1\ItemPrototype.json" />
+    <None Include="Data\TestData1\JFilesInfo.json" />
+    <None Include="Data\TestData1\Object.json" />
+    <None Include="Data\TestData1\Wall.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -115,8 +122,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\TestData1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

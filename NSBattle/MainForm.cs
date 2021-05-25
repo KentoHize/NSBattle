@@ -16,13 +16,13 @@ namespace NSBattle
     public partial class MainForm : Form
     {
         public string DataPath =  @"C:\Programs\WinForm\NSBattle\NSBattle\Data\";
-        Pen myPen = new Pen(Brushes.Black);
-        Graphics g = null;
+        Pen defaultPen = new Pen(Brushes.Black);        
 
         Area area;
         List<ItemPrototype> itemPrototypes;
         List<Object> objects;
         List<Wall> walls;
+        List<Character> characters;
         public MainForm()
         {
             InitializeComponent();
@@ -30,9 +30,9 @@ namespace NSBattle
 
         private void btnStartTest_Click(object sender, EventArgs e)
         {
-            g = pnlCanvas.CreateGraphics();
-            myPen.Width = 2;
-            g.DrawLine(myPen, new Point(10, 10), new Point(100, 100));
+            //g = pnlCanvas.CreateGraphics();
+            //defaultPen.Width = 2;
+            //g.DrawLine(defaultPen, new Point(10, 10), new Point(100, 100));
         }
 
         private void btnLoadArea1_Click(object sender, EventArgs e)
@@ -76,6 +76,25 @@ namespace NSBattle
                     walls = JsonSerializer.Deserialize<List<Wall>>(s, jso);
                 }
             }
+
+            using (FileStream fs = new FileStream(DataPath + @"TestData1\Character.json", FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string s = sr.ReadToEnd();
+                    characters = JsonSerializer.Deserialize<List<Character>>(s, jso);
+                }
+            }
+            DrawMap(pnlCanvas.CreateGraphics());
+        }
+
+        private void DrawMap(Graphics g)
+        {
+            g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length, 0));
+            g.DrawLine(defaultPen, new Point(area.Length, 0), new Point(area.Length, area.Width));
+            g.DrawLine(defaultPen, new Point(0, area.Width), new Point(area.Length, area.Width));
+            g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width));
+            //g.DrawLine(defaultPen) area.Length
         }
     }
 }
