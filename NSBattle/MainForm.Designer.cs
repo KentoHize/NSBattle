@@ -31,6 +31,7 @@ namespace NSBattle
         {
             this.pnlCanvas = new System.Windows.Forms.Panel();
             this.btnStartTest = new System.Windows.Forms.Button();
+            this.btnLoadArea1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pnlCanvas
@@ -42,7 +43,7 @@ namespace NSBattle
             // 
             // btnStartTest
             // 
-            this.btnStartTest.Location = new System.Drawing.Point(12, 782);
+            this.btnStartTest.Location = new System.Drawing.Point(223, 782);
             this.btnStartTest.Name = "btnStartTest";
             this.btnStartTest.Size = new System.Drawing.Size(205, 43);
             this.btnStartTest.TabIndex = 1;
@@ -50,11 +51,22 @@ namespace NSBattle
             this.btnStartTest.UseVisualStyleBackColor = true;
             this.btnStartTest.Click += new System.EventHandler(this.btnStartTest_Click);
             // 
+            // btnLoadArea1
+            // 
+            this.btnLoadArea1.Location = new System.Drawing.Point(12, 782);
+            this.btnLoadArea1.Name = "btnLoadArea1";
+            this.btnLoadArea1.Size = new System.Drawing.Size(205, 43);
+            this.btnLoadArea1.TabIndex = 2;
+            this.btnLoadArea1.Text = "讀取Area1";
+            this.btnLoadArea1.UseVisualStyleBackColor = true;
+            this.btnLoadArea1.Click += new System.EventHandler(this.btnLoadArea1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1326, 837);
+            this.Controls.Add(this.btnLoadArea1);
             this.Controls.Add(this.btnStartTest);
             this.Controls.Add(this.pnlCanvas);
             this.Name = "MainForm";
@@ -67,6 +79,7 @@ namespace NSBattle
 
         private System.Windows.Forms.Panel pnlCanvas;
         private System.Windows.Forms.Button btnStartTest;
+        private System.Windows.Forms.Button btnLoadArea1;
     }
 }
 

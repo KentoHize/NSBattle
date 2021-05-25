@@ -20,6 +20,9 @@ namespace NSBattle
         Graphics g = null;
 
         Area area;
+        List<ItemPrototype> itemPrototypes;
+        List<Object> objects;
+        List<Wall> walls;
         public MainForm()
         {
             InitializeComponent();
@@ -27,22 +30,19 @@ namespace NSBattle
 
         private void btnStartTest_Click(object sender, EventArgs e)
         {
+            g = pnlCanvas.CreateGraphics();
+            myPen.Width = 2;
+            g.DrawLine(myPen, new Point(10, 10), new Point(100, 100));
+        }
+
+        private void btnLoadArea1_Click(object sender, EventArgs e)
+        {
             JsonSerializerOptions jso = new JsonSerializerOptions();
-            //{ WriteIndented = true };
             DefaultJsonConverterFactory djcf = new DefaultJsonConverterFactory();
             jso.Converters.Add(djcf);
 
             using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
             {
-                using(StreamReader sr = new StreamReader(fs))
-                { 
-                    string s = sr.ReadToEnd();                  
-                    area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
-                }
-            }
-
-            using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
-            {
                 using (StreamReader sr = new StreamReader(fs))
                 {
                     string s = sr.ReadToEnd();
@@ -50,27 +50,32 @@ namespace NSBattle
                 }
             }
 
-            using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
+            using (FileStream fs = new FileStream(DataPath + @"TestData1\ItemPrototype.json", FileMode.Open))
             {
                 using (StreamReader sr = new StreamReader(fs))
                 {
                     string s = sr.ReadToEnd();
-                    area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
+                    itemPrototypes = JsonSerializer.Deserialize<List<ItemPrototype>>(s, jso);
                 }
             }
 
-            using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
+            using (FileStream fs = new FileStream(DataPath + @"TestData1\Object.json", FileMode.Open))
             {
                 using (StreamReader sr = new StreamReader(fs))
                 {
                     string s = sr.ReadToEnd();
-                    area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
+                    objects = JsonSerializer.Deserialize<List<Object>>(s, jso);
                 }
             }
 
-            g = pnlCanvas.CreateGraphics();
-            myPen.Width = 2;
-            g.DrawLine(myPen, new Point(10, 10), new Point(100, 100));
+            using (FileStream fs = new FileStream(DataPath + @"TestData1\Wall.json", FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string s = sr.ReadToEnd();
+                    walls = JsonSerializer.Deserialize<List<Wall>>(s, jso);
+                }
+            }
         }
     }
 }
