@@ -35,14 +35,39 @@ namespace NSBattle
             using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
             {
                 using(StreamReader sr = new StreamReader(fs))
-                {
-                    List<Area> areas = new List<Area>();
-                    string s = sr.ReadToEnd();
-                    areas = JsonSerializer.Deserialize<List<Area>>(s, jso);
-                    //area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
+                { 
+                    string s = sr.ReadToEnd();                  
+                    area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
                 }
             }
-            
+
+            using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string s = sr.ReadToEnd();
+                    area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
+                }
+            }
+
+            using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string s = sr.ReadToEnd();
+                    area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
+                }
+            }
+
+            using (FileStream fs = new FileStream(DataPath + @"TestData1\Area.json", FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string s = sr.ReadToEnd();
+                    area = JsonSerializer.Deserialize<List<Area>>(s, jso)[0];
+                }
+            }
+
             g = pnlCanvas.CreateGraphics();
             myPen.Width = 2;
             g.DrawLine(myPen, new Point(10, 10), new Point(100, 100));

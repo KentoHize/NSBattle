@@ -16,5 +16,7 @@ namespace NSBattle
         public int OutY { get; set; }
         public int Length { get; set; }
         public int Width { get; set; }
+
+        public Area() { }
     }
 }
