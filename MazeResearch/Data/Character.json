@@ -1,0 +1,25 @@
+[
+  {
+    "ID": 1,
+    "TeamID": 1,
+    "Name": "",
+    "DisplayName": "",
+    "PrototypeID": 0,
+    "Hitpoint": 100,
+    "Strength": 20,
+    "Dexterity": 20,
+    "Intelligence": 20,
+    "Appearance": 20,
+    "HeadEquipmentID": null,
+    "BodyEquipmentID": null,
+    "ArmEquipmentID": null,
+    "LegEquipmentID": null,
+    "FootEquipmentID": null,
+    "Accessory1ID": null,
+    "Accessory2ID": null,
+    "Accessory3ID": null,
+    "Accessory4ID": null,
+    "Accessory5ID": null,
+    "PrimeSoul": null
+  }
+]

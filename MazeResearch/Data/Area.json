@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 1,
+    "Name": "Area1",
+    "InX": 0,
+    "InY": 0,
+    "OutX": 50,
+    "OutY": 100,
+    "Length": 100,
+    "Width": 100
+  }
+]

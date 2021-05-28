@@ -12,5 +12,11 @@ namespace NSBattleTest
         {
             Tina.SaveProject(ProjectChoice.NSBattle);
         }
+
+        [TestMethod]
+        public void BackupAritiafel()
+        {
+            Tina.SaveProject();
+        }
     }
 }
