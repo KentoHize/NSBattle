@@ -89,8 +89,8 @@ namespace MazeResearch
                     block.ID = i * 10 + j;
                     block.X = i * 10;
                     block.Y = j * 10;
-                    block.EastStatus = cb.DrawOutByte(0, 2);
-                    block.SouthStatus = cb.DrawOutByte(0, 2);
+                    block.EastStatus = cb.DrawOutByte(0, 1);
+                    block.SouthStatus = cb.DrawOutByte(0, 1);
 
                     if (i == 9)
                         block.EastStatus = 1;                    
@@ -98,7 +98,18 @@ namespace MazeResearch
                         block.SouthStatus = 1;
                     blocks.Add(block);
                 }
-            }            
+            }
+
+            using (FileStream fs = new FileStream(DataPath + @"Block.json", FileMode.Create))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    JsonSerializerOptions jso = new JsonSerializerOptions();
+                    DefaultJsonConverterFactory djcf = new DefaultJsonConverterFactory();
+                    jso.Converters.Add(djcf);
+                    sw.Write(JsonSerializer.Serialize(blocks, jso));
+                }
+            }
         }
 
 
@@ -106,10 +117,10 @@ namespace MazeResearch
         {
             g.Clear(BackColor);
             //pnlCanvas.Refresh();
-            //g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
+            g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
             //g.DrawLine(defaultPen, new Point(area.Length * multipier, 0), new Point(area.Length * multipier, area.Width * multipier));
             //g.DrawLine(defaultPen, new Point(0, area.Width * multipier), new Point(area.Length * multipier, area.Width * multipier));
-            //g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
+            g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
             //g.DrawLine(defaultPen) area.Length
             for(int i = 0; i < blocks.Count; i++)
             {
