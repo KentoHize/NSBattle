@@ -35,9 +35,9 @@ namespace MazeResearch
             // 
             // btnClick
             // 
-            this.btnClick.Location = new System.Drawing.Point(12, 625);
+            this.btnClick.Location = new System.Drawing.Point(984, 12);
             this.btnClick.Name = "btnClick";
-            this.btnClick.Size = new System.Drawing.Size(173, 52);
+            this.btnClick.Size = new System.Drawing.Size(157, 45);
             this.btnClick.TabIndex = 0;
             this.btnClick.Text = "讀取資料";
             this.btnClick.UseVisualStyleBackColor = true;
@@ -47,14 +47,14 @@ namespace MazeResearch
             // 
             this.pnlCanvas.Location = new System.Drawing.Point(12, 12);
             this.pnlCanvas.Name = "pnlCanvas";
-            this.pnlCanvas.Size = new System.Drawing.Size(776, 605);
+            this.pnlCanvas.Size = new System.Drawing.Size(966, 848);
             this.pnlCanvas.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 687);
+            this.ClientSize = new System.Drawing.Size(1151, 866);
             this.Controls.Add(this.pnlCanvas);
             this.Controls.Add(this.btnClick);
             this.Name = "MainForm";
