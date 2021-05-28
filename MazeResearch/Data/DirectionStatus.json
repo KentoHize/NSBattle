@@ -1,0 +1,26 @@
+[
+  {
+    "ID": 0,
+    "Name": "Empty",
+    "Description": "空的",
+    "DashStyle": null
+  },
+  {
+    "ID": 1,
+    "Name": "Wall",
+    "Description": "牆壁",
+    "DashStyle": 0
+  },
+  {
+    "ID": 2,
+    "Name": "GlassWall",
+    "Description": "玻璃牆",
+    "DashStyle": 1
+  },
+  {
+    "ID": 3,
+    "Name": "Fence",
+    "Description": "柵欄",
+    "DashStyle": 2
+  }
+]
