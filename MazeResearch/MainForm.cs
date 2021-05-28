@@ -24,9 +24,8 @@ namespace MazeResearch
         Graphics g;
         int multipier = 8;
         //List<ItemPrototype> itemPrototypes;
-        //List<Object> objects;
-        
-        List<Wall> walls = new List<Wall>();
+        //List<Object> objects;        
+
         List<Block> blocks = new List<Block>();
         List<DirectionStatus> dStatus = new List<DirectionStatus>();
         
@@ -74,42 +73,12 @@ namespace MazeResearch
             DrawMap();
         }
 
-        private void MazeBlocks()
-        {
-            Wall wall;
-
-            for(int i = 0; i < 10; i++)
-            {
-                for(int j = 0; j < 10; j++)
-                {
-                    if(j != 0)
-                    {
-                        wall = new Wall();
-                        wall.X = i * 10;
-                        wall.Y = j * 10;
-                        wall.HorizontalOrVertical = 'h';
-                        wall.MaterialID = 0;
-                        wall.AreaID = 1;
-                        walls.Add(wall);
-                    }
-
-                    if(i != 0)
-                    {
-                        wall = new Wall();
-                        wall.X = i * 10;
-                        wall.Y = j * 10;
-                        wall.HorizontalOrVertical = 'v';
-                        wall.MaterialID = 0;
-                        wall.AreaID = 1;
-                        walls.Add(wall);
-                    }
-                }
-            }
-        }
+   
 
         private void RandomMaze()
         {
             ChaosBox cb = new ChaosBox();
+            blocks.Clear();
             Block block;
             for (int i = 0; i < 10; i++)
             {
@@ -136,6 +105,7 @@ namespace MazeResearch
         private void DrawMap()
         {
             g.Clear(BackColor);
+            //pnlCanvas.Refresh();
             //g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
             //g.DrawLine(defaultPen, new Point(area.Length * multipier, 0), new Point(area.Length * multipier, area.Width * multipier));
             //g.DrawLine(defaultPen, new Point(0, area.Width * multipier), new Point(area.Length * multipier, area.Width * multipier));
@@ -145,7 +115,7 @@ namespace MazeResearch
             {
                 if (blocks[i].EastStatus != 0)
                     g.DrawLine(defaultPen, new Point((blocks[i].X + 10) * multipier, blocks[i].Y * multipier), new Point((blocks[i].X + 10) * multipier, (blocks[i].Y + 10) * multipier));
-                else if(blocks[i].SouthStatus != 0)
+                if(blocks[i].SouthStatus != 0)
                     g.DrawLine(defaultPen, new Point((blocks[i].X) * multipier, (blocks[i].Y + 10) * multipier), new Point((blocks[i].X + 10) * multipier, (blocks[i].Y + 10) * multipier));
             }
             //defaultPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
