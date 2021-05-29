@@ -26,7 +26,8 @@ namespace MazeResearch
         //List<ItemPrototype> itemPrototypes;
         //List<Object> objects;        
 
-        List<Block> blocks = new List<Block>();
+        SortedDictionary<(int, int), Block> blocks;
+        //List<Block> blocks = new List<Block>();
         List<DirectionStatus> dStatus = new List<DirectionStatus>();
         
         //List<Character> characters;
@@ -96,7 +97,7 @@ namespace MazeResearch
                         block.EastStatus = 1;                    
                     if (j == 9)
                         block.SouthStatus = 1;
-                    blocks.Add(block);
+                    blocks.Add((block.X, block.Y), block);
                 }
             }
 
@@ -122,12 +123,12 @@ namespace MazeResearch
             //g.DrawLine(defaultPen, new Point(0, area.Width * multipier), new Point(area.Length * multipier, area.Width * multipier));
             g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
             //g.DrawLine(defaultPen) area.Length
-            for(int i = 0; i < blocks.Count; i++)
+            foreach (Block block in blocks.Values)
             {
-                if (blocks[i].EastStatus != 0)
-                    g.DrawLine(defaultPen, new Point((blocks[i].X + 10) * multipier, blocks[i].Y * multipier), new Point((blocks[i].X + 10) * multipier, (blocks[i].Y + 10) * multipier));
-                if(blocks[i].SouthStatus != 0)
-                    g.DrawLine(defaultPen, new Point((blocks[i].X) * multipier, (blocks[i].Y + 10) * multipier), new Point((blocks[i].X + 10) * multipier, (blocks[i].Y + 10) * multipier));
+                if (block.EastStatus != 0)
+                    g.DrawLine(defaultPen, new Point((block.X + 10) * multipier, block.Y * multipier), new Point((block.X + 10) * multipier, (block.Y + 10) * multipier));
+                if (block.SouthStatus != 0)
+                    g.DrawLine(defaultPen, new Point((block.X) * multipier, (block.Y + 10) * multipier), new Point((block.X + 10) * multipier, (block.Y + 10) * multipier));
             }
             //defaultPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
         }

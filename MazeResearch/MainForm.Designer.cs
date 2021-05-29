@@ -78,6 +78,8 @@ namespace MazeResearch
             this.Controls.Add(this.pnlPersonal);
             this.Controls.Add(this.pnlCanvas);
             this.Controls.Add(this.btnClick);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.ResumeLayout(false);
