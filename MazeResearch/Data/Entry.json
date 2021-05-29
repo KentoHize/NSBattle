@@ -1,0 +1,20 @@
+[
+  {
+    "ID": 1,
+    "AreaID": 1,
+    "OutAreaID": null,
+    "X": 0,
+    "Y": 0,
+    "Direction": "n",
+    "IsEntry": true
+  },
+  {
+    "ID": 2,
+    "AreaID": 1,
+    "OutAreaID": null,
+    "X": 50,
+    "Y": 100,
+    "Direction": "s",
+    "IsEntry": false
+  }
+]
