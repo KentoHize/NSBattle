@@ -85,11 +85,8 @@ namespace MazeResearch
             RandomMaze();
             if(g == null)
                 g = pnlCanvas.CreateGraphics();
-            DrawMap();
-            
+            DrawMap();            
         }
-
-   
 
         private void RandomMaze()
         {   
@@ -181,11 +178,10 @@ namespace MazeResearch
 
         private void DrawToken()
         {
-            g2.Clear(BackColor);
+            DrawMap();
             g2.DrawEllipse(defaultPen, new Rectangle((T1.X + 1) * multipier, (T1.Y + 1) * multipier, 8 * multipier, 8 * multipier));
             g2.DrawLine(defaultPen, new Point((T1.X + 5) * multipier, (T1.Y + 5) * multipier),
-                new Point((int)(Math.Cos(T1.Direction * Math.PI / 360) * (T1.X + 5) * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 360) * (T1.Y + 5) * multipier)));
-
+                new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + (T1.X + 5) * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + (T1.Y + 5) * multipier)));
         }
 
         private void btnStartSearch_Click(object sender, EventArgs e)
