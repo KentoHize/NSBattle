@@ -15,7 +15,7 @@ namespace NSBattle
 
     public enum BlockStatus
     { 
-        Empty,
+        Empty = 0,
         Wall
     }
 }

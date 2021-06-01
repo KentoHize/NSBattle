@@ -24,21 +24,18 @@ namespace MazeResearch
         Pen defaultPen = new Pen(Brushes.Black);
         
         Area area;
-        Graphics g;
+        Graphics g, g2;        
         int multipier = 8;
         //List<ItemPrototype> itemPrototypes;
         //List<Object> objects;        
 
-        SortedDictionary<(int, int), Block> blocks;
-        SortedDictionary<(int, int), Block> visibleBlocksA;
+        SortedDictionary<(int x, int y), Block> blocks = new SortedDictionary<(int, int), Block>();
+        SortedDictionary<(int x, int y), Block> visibleBlocksA = new SortedDictionary<(int, int), Block>();
         List<Entry> entries;
         Character C1, C2;
         Token T1, T2;
-        
-        //List<Block> blocks = new List<Block>();
+       
         List<DirectionStatus> dStatus = new List<DirectionStatus>();
-        
-        //List<Character> characters;
         public MainForm()
         {
             InitializeComponent();
@@ -89,12 +86,13 @@ namespace MazeResearch
             if(g == null)
                 g = pnlCanvas.CreateGraphics();
             DrawMap();
+            
         }
 
    
 
         private void RandomMaze()
-        {
+        {   
             ChaosBox cb = new ChaosBox();
             blocks.Clear();
             Block block;
@@ -109,7 +107,7 @@ namespace MazeResearch
                     block.Y = j * 10;
                     block.EastStatus = cb.DrawOutByte(0, 1);
                     block.SouthStatus = cb.DrawOutByte(0, 1);
-
+                    block.Status = BlockStatus.Empty;
                     if (i == 9)
                         block.EastStatus = 1;                    
                     if (j == 9)
@@ -124,8 +122,8 @@ namespace MazeResearch
                 {
                     JsonSerializerOptions jso = new JsonSerializerOptions();
                     DefaultJsonConverterFactory djcf = new DefaultJsonConverterFactory();
-                    jso.Converters.Add(djcf);
-                    sw.Write(JsonSerializer.Serialize(blocks, jso));
+                    jso.Converters.Add(djcf);                    
+                    sw.Write(JsonSerializer.Serialize(blocks.Values, jso));
                 }
             }
         }
@@ -150,6 +148,46 @@ namespace MazeResearch
             //defaultPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
         }
 
+        private void btnRight_Click(object sender, EventArgs e)
+        {
+            T1.X += 10;
+            DrawToken();
+
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            T1.Y += 10;
+            DrawToken();
+        }
+
+        private void btnLeft_Click(object sender, EventArgs e)
+        {
+            T1.X -= 10;
+            DrawToken();
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            T1.Y -= 10;
+            DrawToken();
+        }
+
+        private void btnRotateRight_Click(object sender, EventArgs e)
+        {   
+            T1.Direction += 45;
+            DrawToken();
+        }
+
+        private void DrawToken()
+        {
+            g2.Clear(BackColor);
+            g2.DrawEllipse(defaultPen, new Rectangle((T1.X + 1) * multipier, (T1.Y + 1) * multipier, 8 * multipier, 8 * multipier));
+            g2.DrawLine(defaultPen, new Point((T1.X + 5) * multipier, (T1.Y + 5) * multipier),
+                new Point((int)(Math.Cos(T1.Direction * Math.PI / 360) * (T1.X + 5) * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 360) * (T1.Y + 5) * multipier)));
+
+        }
+
         private void btnStartSearch_Click(object sender, EventArgs e)
         {
             C1 = new Character();
@@ -161,12 +199,16 @@ namespace MazeResearch
             T1.X = entry.X;
             T1.Y = entry.Y;
             T1.Direction = 0;
+
+            if (g2 == null)
+                g2 = pnlCanvas.CreateGraphics();
+            DrawToken();
             getVisibleBlocks();
         }
 
         private void getVisibleBlocks()
         {
-            T1.
+            
         }
     }
 }
