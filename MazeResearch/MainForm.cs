@@ -13,6 +13,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+//SafeSearch
+//DirectSearch
+
 namespace MazeResearch
 {
     public partial class MainForm : Form
@@ -27,6 +30,11 @@ namespace MazeResearch
         //List<Object> objects;        
 
         SortedDictionary<(int, int), Block> blocks;
+        SortedDictionary<(int, int), Block> visibleBlocksA;
+        List<Entry> entries;
+        Character C1, C2;
+        Token T1, T2;
+        
         //List<Block> blocks = new List<Block>();
         List<DirectionStatus> dStatus = new List<DirectionStatus>();
         
@@ -57,6 +65,15 @@ namespace MazeResearch
                 {
                     string s = sr.ReadToEnd();
                     dStatus = JsonSerializer.Deserialize<List<DirectionStatus>>(s, jso);
+                }
+            }
+
+            using (FileStream fs = new FileStream(DataPath + @"Entry.json", FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string s = sr.ReadToEnd();
+                    entries = JsonSerializer.Deserialize<List<Entry>>(s, jso);
                 }
             }
 
@@ -135,9 +152,21 @@ namespace MazeResearch
 
         private void btnStartSearch_Click(object sender, EventArgs e)
         {
-
+            C1 = new Character();
+            C1.ID = 1;
+            T1 = new Token();
+            T1.CharacterID = 1;
+            T1.Name = "Enemy";            
+            Entry entry = entries.Find(m => m.IsEntry);
+            T1.X = entry.X;
+            T1.Y = entry.Y;
+            T1.Direction = 0;
+            getVisibleBlocks();
         }
 
-        //private void DrawMiniMap
+        private void getVisibleBlocks()
+        {
+            T1.
+        }
     }
 }
