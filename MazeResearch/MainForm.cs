@@ -153,26 +153,26 @@ namespace MazeResearch
         }
 
         private void btnRight_Click(object sender, EventArgs e)
-        {
-            picT1.Left += 10 * multipier;
+        {   
+            T1.X += 10;
             DrawToken();
         }
 
         private void btnDown_Click(object sender, EventArgs e)
-        {
-            picT1.Top += 10 * multipier;
+        {   
+            T1.Y += 10;
             DrawToken();
         }
 
         private void btnLeft_Click(object sender, EventArgs e)
-        {
-            picT1.Left -= 10 * multipier;
+        {   
+            T1.X -= 10;
             DrawToken();
         }
 
         private void btnUp_Click(object sender, EventArgs e)
-        {
-            picT1.Top -= 10 * multipier;
+        {   
+            T1.Y -= 10;
             DrawToken();
         }
 
@@ -184,14 +184,18 @@ namespace MazeResearch
 
         private void DrawToken()
         {
+            picT1.Left = T1.X * multipier + multipier;
+            picT1.Top = T1.Y * multipier + multipier;
             g2.Clear(Color.White);
             g2.DrawEllipse(defaultPen, new Rectangle(0, 0, 8 * multipier, 8 * multipier));
             g2.DrawLine(defaultPen, new Point(4 * multipier, 4 * multipier),
                 new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier)));
+
+
         }
 
         private void btnCrossTest_Click(object sender, EventArgs e)
-        {
+        {   
             GetCrossingBlocks(Convert.ToInt32(txtCrossX.Text) * 10, Convert.ToInt32(txtCrossY.Text) * 10);
             //DrawItemEventArgs 
         }
@@ -218,8 +222,11 @@ namespace MazeResearch
         private void GetCrossingBlocks(int x, int y)
         {
             visibleBlocksA.Clear();
-            int w = x - T1.X;
-            int h = y - T1.Y;
+            double w = x - T1.X + 5;
+            double h = y - T1.Y + 5;
+            lblh.Text = w.ToString();
+            lblw.Text = h.ToString();
+            //h = 0
             //斜率即w/h
             foreach (Block b in blocks.Values)
             {
@@ -231,9 +238,38 @@ namespace MazeResearch
                     continue;
                 if (y < T1.Y && (b.Y >= T1.Y || b.Y <= y))
                     continue;
-                visibleBlocksA.Add((b.X, b.Y), b);
-                //X在區間之中 
-                //if (b.X / b.Y > w / h && b.X + 10 / b.Y < w / h)
+
+                //visibleBlocksA.Add((b.X, b.Y), b);                
+                //continue;
+
+                if (h == 0)
+                {
+                    if (b.Y - T1.Y != 0)
+                        continue;
+                    else
+                        visibleBlocksA.Add((b.X, b.Y), b);
+                }                
+                else
+                {
+                    //最外點和最內點與斜率w/h沒有相交則忽略
+                    if (b.Y + 10 - T1.Y + 5 == 0)
+                        continue;
+
+                    if (b.Y - T1.Y + 5 == 0 || b.Y + 10 - T1.Y + 5 == 0)
+                    {
+                        if ((double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) <= w / h)
+                            visibleBlocksA.Add((b.X, b.Y), b);
+                    }
+                    else
+                    {
+                        if ((double)(b.X + 10 - T1.X - 5) / (b.Y - T1.Y - 5) >= w / h && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) <= w / h)
+                            visibleBlocksA.Add((b.X, b.Y), b);
+                        //else if ((double)(b.X + 10 - T1.X - 5) / (b.Y - T1.Y - 5) < w / h && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) > w / h)
+                        //    visibleBlocksA.Add((b.X, b.Y), b);
+                    }
+                    //else if ((double)(b.X - T1.X + 5) / (b.Y + 10 - T1.Y + 5) < w / h && (double)(b.X + 10 - T1.X + 5) / (b.Y - T1.Y + 5) > w / h)
+                    //    visibleBlocksA.Add((b.X, b.Y), b);
+                }
             }
             DrawVisible();
         }

@@ -42,6 +42,8 @@ namespace MazeResearch
             this.btnCrossTest = new System.Windows.Forms.Button();
             this.txtCrossX = new System.Windows.Forms.TextBox();
             this.txtCrossY = new System.Windows.Forms.TextBox();
+            this.lblw = new System.Windows.Forms.Label();
+            this.lblh = new System.Windows.Forms.Label();
             this.pnlCanvas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).BeginInit();
             this.SuspendLayout();
@@ -154,7 +156,7 @@ namespace MazeResearch
             // 
             // txtCrossX
             // 
-            this.txtCrossX.Location = new System.Drawing.Point(1014, 401);
+            this.txtCrossX.Location = new System.Drawing.Point(1014, 377);
             this.txtCrossX.Name = "txtCrossX";
             this.txtCrossX.Size = new System.Drawing.Size(61, 27);
             this.txtCrossX.TabIndex = 10;
@@ -162,17 +164,37 @@ namespace MazeResearch
             // 
             // txtCrossY
             // 
-            this.txtCrossY.Location = new System.Drawing.Point(1110, 401);
+            this.txtCrossY.Location = new System.Drawing.Point(1103, 377);
             this.txtCrossY.Name = "txtCrossY";
             this.txtCrossY.Size = new System.Drawing.Size(61, 27);
             this.txtCrossY.TabIndex = 11;
             this.txtCrossY.Text = "5";
+            // 
+            // lblw
+            // 
+            this.lblw.AutoSize = true;
+            this.lblw.Location = new System.Drawing.Point(1014, 413);
+            this.lblw.Name = "lblw";
+            this.lblw.Size = new System.Drawing.Size(17, 20);
+            this.lblw.TabIndex = 12;
+            this.lblw.Text = "0";
+            // 
+            // lblh
+            // 
+            this.lblh.AutoSize = true;
+            this.lblh.Location = new System.Drawing.Point(1103, 413);
+            this.lblh.Name = "lblh";
+            this.lblh.Size = new System.Drawing.Size(17, 20);
+            this.lblh.TabIndex = 13;
+            this.lblh.Text = "0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 866);
+            this.Controls.Add(this.lblh);
+            this.Controls.Add(this.lblw);
             this.Controls.Add(this.txtCrossY);
             this.Controls.Add(this.txtCrossX);
             this.Controls.Add(this.btnCrossTest);
@@ -211,6 +233,8 @@ namespace MazeResearch
         private System.Windows.Forms.Button btnCrossTest;
         private System.Windows.Forms.TextBox txtCrossX;
         private System.Windows.Forms.TextBox txtCrossY;
+        private System.Windows.Forms.Label lblw;
+        private System.Windows.Forms.Label lblh;
     }
 }
 
