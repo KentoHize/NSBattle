@@ -22,10 +22,10 @@ namespace MazeResearch
     {
         public string DataPath = @"C:\Programs\WinForm\NSBattle\MazeResearch\Data\";
         Pen defaultPen = new Pen(Brushes.Black);
-        
+
         Area area;
-        Graphics g, g2;        
-        int multipier = 8;        
+        Graphics g, g2, g3;
+        int multipier = 8, multipierM = 4;
         //List<ItemPrototype> itemPrototypes;
         //List<Object> objects;        
 
@@ -34,16 +34,18 @@ namespace MazeResearch
         List<Entry> entries;
         Character C1, C2;
         Token T1, T2;
-       
+
         List<DirectionStatus> dStatus = new List<DirectionStatus>();
         public MainForm()
-        {            
+        {
             InitializeComponent();
             picT1.Width = multipier * 9;
             picT1.Height = multipier * 9;
             picT1.Left = multipier;
             picT1.Top = multipier;
+            g = pnlCanvas.CreateGraphics();
             g2 = picT1.CreateGraphics();
+            g3 = pnlPersonal.CreateGraphics();
         }
 
         private void btnClick_Click(object sender, EventArgs e)
@@ -79,7 +81,7 @@ namespace MazeResearch
                 }
             }
 
-            
+
             //using (FileStream fs = new FileStream(DataPath + @"TestData1\Wall.json", FileMode.Open))
             //{
             //    using (StreamReader sr = new StreamReader(fs))
@@ -89,19 +91,17 @@ namespace MazeResearch
             //    }
             //}
             RandomMaze();
-            if(g == null)
-                g = pnlCanvas.CreateGraphics();
-            DrawMap();            
+            DrawMap();
         }
 
         private void RandomMaze()
-        {   
+        {
             ChaosBox cb = new ChaosBox();
             blocks.Clear();
             Block block;
             for (int i = 0; i < 10; i++)
             {
-                for(int j = 0; j < 10; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     block = new Block();
                     block.AreaID = 1;
@@ -112,7 +112,7 @@ namespace MazeResearch
                     block.SouthStatus = cb.DrawOutByte(0, 1);
                     block.Status = BlockStatus.Empty;
                     if (i == 9)
-                        block.EastStatus = 1;                    
+                        block.EastStatus = 1;
                     if (j == 9)
                         block.SouthStatus = 1;
                     blocks.Add((block.X, block.Y), block);
@@ -125,7 +125,7 @@ namespace MazeResearch
                 {
                     JsonSerializerOptions jso = new JsonSerializerOptions();
                     DefaultJsonConverterFactory djcf = new DefaultJsonConverterFactory();
-                    jso.Converters.Add(djcf);                    
+                    jso.Converters.Add(djcf);
                     sw.Write(JsonSerializer.Serialize(blocks.Values, jso));
                 }
             }
@@ -153,7 +153,7 @@ namespace MazeResearch
 
         private void btnRight_Click(object sender, EventArgs e)
         {
-            picT1.Left += 10 * multipier;            
+            picT1.Left += 10 * multipier;
             DrawToken();
 
         }
@@ -177,7 +177,7 @@ namespace MazeResearch
         }
 
         private void btnRotateRight_Click(object sender, EventArgs e)
-        {   
+        {
             T1.Direction += 45;
             DrawToken();
         }
@@ -190,13 +190,19 @@ namespace MazeResearch
                 new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier)));
         }
 
+        private void btnCrossTest_Click(object sender, EventArgs e)
+        {
+            GetCrossingBlocks(Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text));            
+            //DrawItemEventArgs 
+        }
+
         private void btnStartSearch_Click(object sender, EventArgs e)
         {
             C1 = new Character();
             C1.ID = 1;
             T1 = new Token();
             T1.CharacterID = 1;
-            T1.Name = "Enemy";            
+            T1.Name = "Enemy";
             Entry entry = entries.Find(m => m.IsEntry);
             T1.X = entry.X;
             T1.Y = entry.Y;
@@ -205,12 +211,55 @@ namespace MazeResearch
             if (g2 == null)
                 g2 = pnlCanvas.CreateGraphics();
             DrawToken();
-            getVisibleBlocks();
+            
+            //getVisibleBlocks();
         }
+
+        private void GetCrossingBlocks(int x, int y)
+        {
+            int w = x - T1.X;
+            int h = y - T1.Y;
+            //斜率即w/h
+            foreach (Block b in blocks.Values)
+            {
+                if (x >= T1.X && (b.X > x || b.X < T1.X))
+                    continue;
+                if (x < T1.X && (b.X >= T1.X || b.X <= x))
+                    continue;
+                if (y >= T1.Y && (b.Y > x || b.Y < T1.Y))
+                    continue;
+                if (y < T1.Y && (b.Y >= T1.Y || b.Y <= y))
+                    continue;
+                visibleBlocksA.Add((b.X, b.Y), b);
+                //X在區間之中 
+                //if (b.X / b.Y > w / h && b.X + 10 / b.Y < w / h)
+            }
+            DrawVisible();
+        }
+
+        private void DrawVisible()
+        {
+            g3.Clear(BackColor);
+            g3.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipierM, 0));
+            g3.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipierM));
+            foreach (Block block in blocks.Values)
+            {
+                if (block.EastStatus != 0)
+                    g3.DrawLine(defaultPen, new Point((block.X + 10) * multipierM, block.Y * multipierM), new Point((block.X + 10) * multipierM, (block.Y + 10) * multipierM));
+                if (block.SouthStatus != 0)
+                    g3.DrawLine(defaultPen, new Point((block.X) * multipierM, (block.Y + 10) * multipierM), new Point((block.X + 10) * multipierM, (block.Y + 10) * multipierM));
+            }
+        }
+
 
         private void getVisibleBlocks()
         {
-            
+          
+        }
+
+        private int getConsealmentAndVisibleBlocks()
+        {
+            return 21;
         }
     }
 }

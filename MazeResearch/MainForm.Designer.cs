@@ -39,6 +39,9 @@ namespace MazeResearch
             this.btnLeft = new System.Windows.Forms.Button();
             this.btnRotateRight = new System.Windows.Forms.Button();
             this.picT1 = new System.Windows.Forms.PictureBox();
+            this.btnCrossTest = new System.Windows.Forms.Button();
+            this.txtCrossX = new System.Windows.Forms.TextBox();
+            this.txtCrossY = new System.Windows.Forms.TextBox();
             this.pnlCanvas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).BeginInit();
             this.SuspendLayout();
@@ -58,14 +61,14 @@ namespace MazeResearch
             this.pnlCanvas.Controls.Add(this.picT1);
             this.pnlCanvas.Location = new System.Drawing.Point(12, 12);
             this.pnlCanvas.Name = "pnlCanvas";
-            this.pnlCanvas.Size = new System.Drawing.Size(966, 848);
+            this.pnlCanvas.Size = new System.Drawing.Size(904, 842);
             this.pnlCanvas.TabIndex = 1;
             // 
             // pnlPersonal
             // 
-            this.pnlPersonal.Location = new System.Drawing.Point(986, 500);
+            this.pnlPersonal.Location = new System.Drawing.Point(922, 449);
             this.pnlPersonal.Name = "pnlPersonal";
-            this.pnlPersonal.Size = new System.Drawing.Size(360, 360);
+            this.pnlPersonal.Size = new System.Drawing.Size(424, 405);
             this.pnlPersonal.TabIndex = 2;
             // 
             // btnStartSearch
@@ -136,11 +139,40 @@ namespace MazeResearch
             this.picT1.TabIndex = 0;
             this.picT1.TabStop = false;
             // 
+            // btnCrossTest
+            // 
+            this.btnCrossTest.Location = new System.Drawing.Point(1214, 386);
+            this.btnCrossTest.Name = "btnCrossTest";
+            this.btnCrossTest.Size = new System.Drawing.Size(110, 57);
+            this.btnCrossTest.TabIndex = 9;
+            this.btnCrossTest.Text = "視線測試";
+            this.btnCrossTest.UseVisualStyleBackColor = true;
+            this.btnCrossTest.Click += new System.EventHandler(this.btnCrossTest_Click);
+            // 
+            // txtCrossX
+            // 
+            this.txtCrossX.Location = new System.Drawing.Point(1014, 401);
+            this.txtCrossX.Name = "txtCrossX";
+            this.txtCrossX.Size = new System.Drawing.Size(61, 27);
+            this.txtCrossX.TabIndex = 10;
+            this.txtCrossX.Text = "3";
+            // 
+            // txtCrossY
+            // 
+            this.txtCrossY.Location = new System.Drawing.Point(1110, 401);
+            this.txtCrossY.Name = "txtCrossY";
+            this.txtCrossY.Size = new System.Drawing.Size(61, 27);
+            this.txtCrossY.TabIndex = 11;
+            this.txtCrossY.Text = "5";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 866);
+            this.Controls.Add(this.txtCrossY);
+            this.Controls.Add(this.txtCrossX);
+            this.Controls.Add(this.btnCrossTest);
             this.Controls.Add(this.btnRotateRight);
             this.Controls.Add(this.btnLeft);
             this.Controls.Add(this.btnRight);
@@ -157,6 +189,7 @@ namespace MazeResearch
             this.pnlCanvas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -172,6 +205,9 @@ namespace MazeResearch
         private System.Windows.Forms.Button btnLeft;
         private System.Windows.Forms.Button btnRotateRight;
         private System.Windows.Forms.PictureBox picT1;
+        private System.Windows.Forms.Button btnCrossTest;
+        private System.Windows.Forms.TextBox txtCrossX;
+        private System.Windows.Forms.TextBox txtCrossY;
     }
 }
 
