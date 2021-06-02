@@ -58,6 +58,7 @@ namespace MazeResearch
             // 
             // pnlCanvas
             // 
+            this.pnlCanvas.BackColor = System.Drawing.Color.White;
             this.pnlCanvas.Controls.Add(this.picT1);
             this.pnlCanvas.Location = new System.Drawing.Point(12, 12);
             this.pnlCanvas.Name = "pnlCanvas";
@@ -66,6 +67,7 @@ namespace MazeResearch
             // 
             // pnlPersonal
             // 
+            this.pnlPersonal.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pnlPersonal.Location = new System.Drawing.Point(922, 449);
             this.pnlPersonal.Name = "pnlPersonal";
             this.pnlPersonal.Size = new System.Drawing.Size(424, 405);
@@ -133,6 +135,7 @@ namespace MazeResearch
             // 
             // picT1
             // 
+            this.picT1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.picT1.Location = new System.Drawing.Point(14, 16);
             this.picT1.Name = "picT1";
             this.picT1.Size = new System.Drawing.Size(80, 80);

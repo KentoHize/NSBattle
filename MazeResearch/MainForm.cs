@@ -22,6 +22,7 @@ namespace MazeResearch
     {
         public string DataPath = @"C:\Programs\WinForm\NSBattle\MazeResearch\Data\";
         Pen defaultPen = new Pen(Brushes.Black);
+        Pen whitePen = new Pen(Brushes.White);
 
         Area area;
         Graphics g, g2, g3;
@@ -135,19 +136,19 @@ namespace MazeResearch
         private void DrawMap()
         {
             g.Clear(BackColor);
-            //pnlCanvas.Refresh();
-            g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
-            //g.DrawLine(defaultPen, new Point(area.Length * multipier, 0), new Point(area.Length * multipier, area.Width * multipier));
-            //g.DrawLine(defaultPen, new Point(0, area.Width * multipier), new Point(area.Length * multipier, area.Width * multipier));
-            g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
-            //g.DrawLine(defaultPen) area.Length
+            foreach(Block block in blocks.Values)
+                if (block.Status == BlockStatus.Empty)
+                    g.FillRectangle(Brushes.White, block.X * multipier, block.Y * multipier, 10 * multipier, 10 * multipier);
+
             foreach (Block block in blocks.Values)
-            {
+            {               
                 if (block.EastStatus != 0)
                     g.DrawLine(defaultPen, new Point((block.X + 10) * multipier, block.Y * multipier), new Point((block.X + 10) * multipier, (block.Y + 10) * multipier));
                 if (block.SouthStatus != 0)
                     g.DrawLine(defaultPen, new Point((block.X) * multipier, (block.Y + 10) * multipier), new Point((block.X + 10) * multipier, (block.Y + 10) * multipier));
             }
+            g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
+            g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
             //defaultPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
         }
 
@@ -155,7 +156,6 @@ namespace MazeResearch
         {
             picT1.Left += 10 * multipier;
             DrawToken();
-
         }
 
         private void btnDown_Click(object sender, EventArgs e)
@@ -184,7 +184,7 @@ namespace MazeResearch
 
         private void DrawToken()
         {
-            g2.Clear(BackColor);
+            g2.Clear(Color.White);
             g2.DrawEllipse(defaultPen, new Rectangle(0, 0, 8 * multipier, 8 * multipier));
             g2.DrawLine(defaultPen, new Point(4 * multipier, 4 * multipier),
                 new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier)));
@@ -192,7 +192,7 @@ namespace MazeResearch
 
         private void btnCrossTest_Click(object sender, EventArgs e)
         {
-            GetCrossingBlocks(Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text));            
+            GetCrossingBlocks(Convert.ToInt32(txtCrossX.Text) * 10, Convert.ToInt32(txtCrossY.Text) * 10);
             //DrawItemEventArgs 
         }
 
@@ -217,6 +217,7 @@ namespace MazeResearch
 
         private void GetCrossingBlocks(int x, int y)
         {
+            visibleBlocksA.Clear();
             int w = x - T1.X;
             int h = y - T1.Y;
             //斜率即w/h
@@ -226,7 +227,7 @@ namespace MazeResearch
                     continue;
                 if (x < T1.X && (b.X >= T1.X || b.X <= x))
                     continue;
-                if (y >= T1.Y && (b.Y > x || b.Y < T1.Y))
+                if (y >= T1.Y && (b.Y > y || b.Y < T1.Y))
                     continue;
                 if (y < T1.Y && (b.Y >= T1.Y || b.Y <= y))
                     continue;
@@ -240,15 +241,19 @@ namespace MazeResearch
         private void DrawVisible()
         {
             g3.Clear(BackColor);
-            g3.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipierM, 0));
-            g3.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipierM));
-            foreach (Block block in blocks.Values)
+            foreach (Block block in visibleBlocksA.Values)
+                if (block.Status == BlockStatus.Empty)
+                    g3.FillRectangle(Brushes.White, block.X * multipierM, block.Y * multipierM, 10 * multipierM, 10 * multipierM);
+
+            foreach (Block block in visibleBlocksA.Values)
             {
                 if (block.EastStatus != 0)
                     g3.DrawLine(defaultPen, new Point((block.X + 10) * multipierM, block.Y * multipierM), new Point((block.X + 10) * multipierM, (block.Y + 10) * multipierM));
                 if (block.SouthStatus != 0)
                     g3.DrawLine(defaultPen, new Point((block.X) * multipierM, (block.Y + 10) * multipierM), new Point((block.X + 10) * multipierM, (block.Y + 10) * multipierM));
             }
+            g3.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipierM, 0));
+            g3.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipierM));
         }
 
 
