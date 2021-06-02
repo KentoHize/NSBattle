@@ -25,7 +25,7 @@ namespace MazeResearch
         
         Area area;
         Graphics g, g2;        
-        int multipier = 8;
+        int multipier = 8;        
         //List<ItemPrototype> itemPrototypes;
         //List<Object> objects;        
 
@@ -37,8 +37,13 @@ namespace MazeResearch
        
         List<DirectionStatus> dStatus = new List<DirectionStatus>();
         public MainForm()
-        {
+        {            
             InitializeComponent();
+            picT1.Width = multipier * 9;
+            picT1.Height = multipier * 9;
+            picT1.Left = multipier;
+            picT1.Top = multipier;
+            g2 = picT1.CreateGraphics();
         }
 
         private void btnClick_Click(object sender, EventArgs e)
@@ -74,6 +79,7 @@ namespace MazeResearch
                 }
             }
 
+            
             //using (FileStream fs = new FileStream(DataPath + @"TestData1\Wall.json", FileMode.Open))
             //{
             //    using (StreamReader sr = new StreamReader(fs))
@@ -147,26 +153,26 @@ namespace MazeResearch
 
         private void btnRight_Click(object sender, EventArgs e)
         {
-            T1.X += 10;
+            picT1.Left += 10 * multipier;            
             DrawToken();
 
         }
 
         private void btnDown_Click(object sender, EventArgs e)
         {
-            T1.Y += 10;
+            picT1.Top += 10 * multipier;
             DrawToken();
         }
 
         private void btnLeft_Click(object sender, EventArgs e)
         {
-            T1.X -= 10;
+            picT1.Left -= 10 * multipier;
             DrawToken();
         }
 
         private void btnUp_Click(object sender, EventArgs e)
         {
-            T1.Y -= 10;
+            picT1.Top -= 10 * multipier;
             DrawToken();
         }
 
@@ -178,10 +184,10 @@ namespace MazeResearch
 
         private void DrawToken()
         {
-            DrawMap();
-            g2.DrawEllipse(defaultPen, new Rectangle((T1.X + 1) * multipier, (T1.Y + 1) * multipier, 8 * multipier, 8 * multipier));
-            g2.DrawLine(defaultPen, new Point((T1.X + 5) * multipier, (T1.Y + 5) * multipier),
-                new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + (T1.X + 5) * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + (T1.Y + 5) * multipier)));
+            g2.Clear(BackColor);
+            g2.DrawEllipse(defaultPen, new Rectangle(0, 0, 8 * multipier, 8 * multipier));
+            g2.DrawLine(defaultPen, new Point(4 * multipier, 4 * multipier),
+                new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier)));
         }
 
         private void btnStartSearch_Click(object sender, EventArgs e)

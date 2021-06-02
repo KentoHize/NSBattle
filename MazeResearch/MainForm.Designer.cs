@@ -38,6 +38,9 @@ namespace MazeResearch
             this.btnRight = new System.Windows.Forms.Button();
             this.btnLeft = new System.Windows.Forms.Button();
             this.btnRotateRight = new System.Windows.Forms.Button();
+            this.picT1 = new System.Windows.Forms.PictureBox();
+            this.pnlCanvas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picT1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClick
@@ -52,6 +55,7 @@ namespace MazeResearch
             // 
             // pnlCanvas
             // 
+            this.pnlCanvas.Controls.Add(this.picT1);
             this.pnlCanvas.Location = new System.Drawing.Point(12, 12);
             this.pnlCanvas.Name = "pnlCanvas";
             this.pnlCanvas.Size = new System.Drawing.Size(966, 848);
@@ -124,6 +128,14 @@ namespace MazeResearch
             this.btnRotateRight.UseVisualStyleBackColor = true;
             this.btnRotateRight.Click += new System.EventHandler(this.btnRotateRight_Click);
             // 
+            // picT1
+            // 
+            this.picT1.Location = new System.Drawing.Point(14, 16);
+            this.picT1.Name = "picT1";
+            this.picT1.Size = new System.Drawing.Size(80, 80);
+            this.picT1.TabIndex = 0;
+            this.picT1.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -142,6 +154,8 @@ namespace MazeResearch
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.pnlCanvas.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picT1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -157,6 +171,7 @@ namespace MazeResearch
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.Button btnLeft;
         private System.Windows.Forms.Button btnRotateRight;
+        private System.Windows.Forms.PictureBox picT1;
     }
 }
 
