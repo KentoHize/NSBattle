@@ -31,14 +31,14 @@ namespace MazeResearch
         {
             this.btnClick = new System.Windows.Forms.Button();
             this.pnlCanvas = new System.Windows.Forms.Panel();
-            this.pnlPersonal = new System.Windows.Forms.Panel();
+            this.picT1 = new System.Windows.Forms.PictureBox();
+            this.pnlMiniCanvas = new System.Windows.Forms.Panel();
             this.btnStartSearch = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
             this.btnRight = new System.Windows.Forms.Button();
             this.btnLeft = new System.Windows.Forms.Button();
             this.btnRotateRight = new System.Windows.Forms.Button();
-            this.picT1 = new System.Windows.Forms.PictureBox();
             this.btnCrossTest = new System.Windows.Forms.Button();
             this.txtCrossX = new System.Windows.Forms.TextBox();
             this.txtCrossY = new System.Windows.Forms.TextBox();
@@ -67,13 +67,23 @@ namespace MazeResearch
             this.pnlCanvas.Size = new System.Drawing.Size(904, 842);
             this.pnlCanvas.TabIndex = 1;
             // 
-            // pnlPersonal
+            // picT1
             // 
-            this.pnlPersonal.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pnlPersonal.Location = new System.Drawing.Point(922, 449);
-            this.pnlPersonal.Name = "pnlPersonal";
-            this.pnlPersonal.Size = new System.Drawing.Size(424, 405);
-            this.pnlPersonal.TabIndex = 2;
+            this.picT1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.picT1.Location = new System.Drawing.Point(14, 16);
+            this.picT1.Name = "picT1";
+            this.picT1.Size = new System.Drawing.Size(80, 80);
+            this.picT1.TabIndex = 0;
+            this.picT1.TabStop = false;
+            // 
+            // pnlMiniCanvas
+            // 
+            this.pnlMiniCanvas.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pnlMiniCanvas.Location = new System.Drawing.Point(922, 449);
+            this.pnlMiniCanvas.Name = "pnlMiniCanvas";
+            this.pnlMiniCanvas.Size = new System.Drawing.Size(424, 405);
+            this.pnlMiniCanvas.TabIndex = 2;
+            this.pnlMiniCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMiniCanvas_Paint);
             // 
             // btnStartSearch
             // 
@@ -135,15 +145,6 @@ namespace MazeResearch
             this.btnRotateRight.UseVisualStyleBackColor = true;
             this.btnRotateRight.Click += new System.EventHandler(this.btnRotateRight_Click);
             // 
-            // picT1
-            // 
-            this.picT1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.picT1.Location = new System.Drawing.Point(14, 16);
-            this.picT1.Name = "picT1";
-            this.picT1.Size = new System.Drawing.Size(80, 80);
-            this.picT1.TabIndex = 0;
-            this.picT1.TabStop = false;
-            // 
             // btnCrossTest
             // 
             this.btnCrossTest.Location = new System.Drawing.Point(1214, 386);
@@ -204,7 +205,7 @@ namespace MazeResearch
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
             this.Controls.Add(this.btnStartSearch);
-            this.Controls.Add(this.pnlPersonal);
+            this.Controls.Add(this.pnlMiniCanvas);
             this.Controls.Add(this.pnlCanvas);
             this.Controls.Add(this.btnClick);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -222,7 +223,7 @@ namespace MazeResearch
 
         private System.Windows.Forms.Button btnClick;
         private System.Windows.Forms.Panel pnlCanvas;
-        private System.Windows.Forms.Panel pnlPersonal;
+        private System.Windows.Forms.Panel pnlMiniCanvas;
         private System.Windows.Forms.Button btnStartSearch;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.Button btnDown;
