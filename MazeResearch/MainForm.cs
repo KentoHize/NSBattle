@@ -291,8 +291,10 @@ namespace MazeResearch
         //    }
         //    DrawVisible();
         //}
-
-        private void CheckVisibleBlock(Block checkBlock)
+        
+        // 3.  南南南南東東東東(不合法)
+        //=> 南東南東南東南東
+        private void CheckVisibleBlock(Block checkBlock, string route = "")
         {   
             visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);
             if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
@@ -328,7 +330,6 @@ namespace MazeResearch
             g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
             g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
         }
-
 
         private void getVisibleBlocks()
         {
