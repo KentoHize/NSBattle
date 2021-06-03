@@ -190,14 +190,15 @@ namespace MazeResearch
             g2.DrawEllipse(defaultPen, new Rectangle(0, 0, 8 * multipier, 8 * multipier));
             g2.DrawLine(defaultPen, new Point(4 * multipier, 4 * multipier),
                 new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier)));
-
-
         }
 
         private void btnCrossTest_Click(object sender, EventArgs e)
         {
-            GetCrossingBlocks(Convert.ToInt32(txtCrossX.Text) * 10, Convert.ToInt32(txtCrossY.Text) * 10);
+
+            //GetCrossingBlocks(Convert.ToInt32(txtCrossX.Text) * 10, Convert.ToInt32(txtCrossY.Text) * 10);
+
             //DrawItemEventArgs 
+            GetVisibleBlocks();
         }
 
         private void pnlMiniCanvas_Paint(object sender, PaintEventArgs e)
@@ -224,83 +225,90 @@ namespace MazeResearch
             //getVisibleBlocks();
         }
 
-        private void GetCrossingBlocks(int x, int y)
+        //private void GetCrossingBlocks(int x, int y)
+        //{
+        //    visibleBlocksA.Clear();
+        //    double deltaX = x - T1.X + 5;
+        //    double deltaY = y - T1.Y + 5;
+        //    lblh.Text = deltaX.ToString();
+        //    lblw.Text = deltaY.ToString();
+        //    //h = 0
+        //    //斜率即h/w
+        //    foreach (Block b in blocks.Values)
+        //    {
+        //        if (x >= T1.X && (b.X > x || b.X < T1.X))
+        //            continue;
+        //        if (x < T1.X && (b.X >= T1.X || b.X <= x))
+        //            continue;
+        //        if (y >= T1.Y && (b.Y > y || b.Y < T1.Y))
+        //            continue;
+        //        if (y < T1.Y && (b.Y >= T1.Y || b.Y <= y))
+        //            continue;
+
+
+        //        if(b.X == 30 && b.Y == 0)
+        //        {
+        //            Console.WriteLine("30, 0");
+        //        }               
+        //            //最外點和最內點與斜率w/h沒有相交則忽略
+        //            double tA, tB, tC, tD;
+        //            if (b.Y - T1.Y - 5 == 0)
+        //            {
+        //                tA = b.X - T1.X - 5 >= 0 ? 1000 : -1000;
+        //                tB = b.X + 10 - T1.X - 5 >= 0 ? 1000 : -1000;
+        //            }
+        //            else
+        //            {
+        //                tA = Math.Abs((double)(b.Y - T1.Y - 5)) / (b.X - T1.X - 5) - Math.Abs(deltaY / deltaX);
+        //                tB = Math.Abs((double)(b.Y - T1.Y - 5)) / (b.X + 10 - T1.X - 5) - Math.Abs(deltaY / deltaX);
+        //            }
+
+        //            if (b.Y + 10 - T1.Y - 5 == 0)
+        //            {
+        //                tC = b.X + 10 - T1.X - 5 >= 0 ? 1000 : -1000;
+        //                tD = b.X - T1.X - 5 >= 0 ? 1000 : -1000;
+        //            }
+        //            else
+        //            {
+        //                tC = Math.Abs((double)(b.Y + 10 - T1.Y - 5)) / (b.X + 10 - T1.X - 5) - Math.Abs(deltaY / deltaX);
+        //                tD = Math.Abs((double)(b.Y + 10 - T1.Y - 5)) / (b.X - T1.X - 5) - Math.Abs(deltaY / deltaX);
+        //            }
+
+        //            if (tA > 0 && tB > 0 && tC > 0 && tD > 0)
+        //                continue;
+        //            if (tA < 0 && tB < 0 && tC < 0 && tD < 0)
+        //                continue;
+
+        //            //if ( && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) <= w / h)
+        //            //if ((double)(b.X + 10 - T1.X - 5) / (b.Y - T1.Y - 5) >= w / h && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) <= w / h)
+        //            visibleBlocksA.Add((b.X, b.Y), b);
+        //            //else if ((double)(b.X + 10 - T1.X - 5) / (b.Y - T1.Y - 5) < w / h && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) > w / h)
+        //            //    visibleBlocksA.Add((b.X, b.Y), b);
+
+        //            //else if ((double)(b.X - T1.X + 5) / (b.Y + 10 - T1.Y + 5) < w / h && (double)(b.X + 10 - T1.X + 5) / (b.Y - T1.Y + 5) > w / h)
+        //            //    visibleBlocksA.Add((b.X, b.Y), b);
+        //        //}
+        //    }
+        //    DrawVisible();
+        //}
+
+        private void CheckVisibleBlock(Block checkBlock)
+        {   
+            visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);
+            if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)]);
+        }
+
+        private void GetVisibleBlocks()
         {
             visibleBlocksA.Clear();
-            double deltaX = x - T1.X + 5;
-            double deltaY = y - T1.Y + 5;
-            lblh.Text = deltaX.ToString();
-            lblw.Text = deltaY.ToString();
-            //h = 0
-            //斜率即h/w
-            foreach (Block b in blocks.Values)
-            {
-                if (x >= T1.X && (b.X > x || b.X < T1.X))
-                    continue;
-                if (x < T1.X && (b.X >= T1.X || b.X <= x))
-                    continue;
-                if (y >= T1.Y && (b.Y > y || b.Y < T1.Y))
-                    continue;
-                if (y < T1.Y && (b.Y >= T1.Y || b.Y <= y))
-                    continue;
-
-
-                if(b.X == 30 && b.Y == 0)
-                {
-                    Console.WriteLine("30, 0");
-                }
-                //visibleBlocksA.Add((b.X, b.Y), b);
-                //continue;
-
-                //if (h == 0)
-                //{
-                //    if (b.Y - T1.Y != 0)
-                //        continue;
-                //    else
-                //        visibleBlocksA.Add((b.X, b.Y), b);
-                //}
-                //else
-                //{
-                    //最外點和最內點與斜率w/h沒有相交則忽略
-                    double tA, tB, tC, tD;
-                    if (b.Y - T1.Y - 5 == 0)
-                    {
-                        tA = b.X - T1.X - 5 >= 0 ? 1000 : -1000;
-                        tB = b.X + 10 - T1.X - 5 >= 0 ? 1000 : -1000;
-                    }
-                    else
-                    {
-                        tA = Math.Abs((double)(b.Y - T1.Y - 5)) / (b.X - T1.X - 5) - Math.Abs(deltaY / deltaX);
-                        tB = Math.Abs((double)(b.Y - T1.Y - 5)) / (b.X + 10 - T1.X - 5) - Math.Abs(deltaY / deltaX);
-                    }
-
-                    if (b.Y + 10 - T1.Y - 5 == 0)
-                    {
-                        tC = b.X + 10 - T1.X - 5 >= 0 ? 1000 : -1000;
-                        tD = b.X - T1.X - 5 >= 0 ? 1000 : -1000;
-                    }
-                    else
-                    {
-                        tC = Math.Abs((double)(b.Y + 10 - T1.Y - 5)) / (b.X + 10 - T1.X - 5) - Math.Abs(deltaY / deltaX);
-                        tD = Math.Abs((double)(b.Y + 10 - T1.Y - 5)) / (b.X - T1.X - 5) - Math.Abs(deltaY / deltaX);
-                    }
-
-                    if (tA > 0 && tB > 0 && tC > 0 && tD > 0)
-                        continue;
-                    if (tA < 0 && tB < 0 && tC < 0 && tD < 0)
-                        continue;
-
-                    //if ( && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) <= w / h)
-                    //if ((double)(b.X + 10 - T1.X - 5) / (b.Y - T1.Y - 5) >= w / h && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) <= w / h)
-                    visibleBlocksA.Add((b.X, b.Y), b);
-                    //else if ((double)(b.X + 10 - T1.X - 5) / (b.Y - T1.Y - 5) < w / h && (double)(b.X - T1.X - 5) / (b.Y + 10 - T1.Y - 5) > w / h)
-                    //    visibleBlocksA.Add((b.X, b.Y), b);
-
-                    //else if ((double)(b.X - T1.X + 5) / (b.Y + 10 - T1.Y + 5) < w / h && (double)(b.X + 10 - T1.X + 5) / (b.Y - T1.Y + 5) > w / h)
-                    //    visibleBlocksA.Add((b.X, b.Y), b);
-                //}
-            }
+            //假設先往南
+            //start T1.X, T1.Y
+            //0為可以走
+            Block nowAt = blocks[(T1.X, T1.Y)];
+            CheckVisibleBlock(nowAt);
             DrawVisible();
+            //blocks[]
         }
 
         private void DrawVisible()
