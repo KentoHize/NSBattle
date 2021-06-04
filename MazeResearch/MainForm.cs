@@ -149,37 +149,51 @@ namespace MazeResearch
             }
             g3.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipierM, 0));
             g3.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipierM));
-            //defaultPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+
+            if(T1 != null)
+            {
+                
+                //picT1.Left = T1.X * multipier + multipier;
+                //picT1.Top = T1.Y * multipier + multipier;                
+                g3.DrawEllipse(defaultPen, new Rectangle(T1.X * multipierM + multipierM, T1.Y * multipierM + multipierM, 8 * multipierM, 8 * multipierM));
+                //g3.DrawLine(defaultPen, new Point(4 * multipier, 4 * multipier),
+                //    new Point((int)(Math.Cos(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier), (int)(Math.Sin(T1.Direction * Math.PI / 180) * 4 * multipier + 4 * multipier)));
+            }
         }
 
         private void btnRight_Click(object sender, EventArgs e)
         {
             T1.X += 10;
             DrawToken();
+            DrawMap();
         }
 
         private void btnDown_Click(object sender, EventArgs e)
         {
             T1.Y += 10;
             DrawToken();
+            DrawMap();
         }
 
         private void btnLeft_Click(object sender, EventArgs e)
         {
             T1.X -= 10;
             DrawToken();
+            DrawMap();
         }
 
         private void btnUp_Click(object sender, EventArgs e)
         {
             T1.Y -= 10;
             DrawToken();
+            DrawMap();
         }
 
         private void btnRotateRight_Click(object sender, EventArgs e)
         {
             T1.Direction += 45;
             DrawToken();
+            DrawMap();
         }
 
         private void DrawToken()
@@ -194,10 +208,6 @@ namespace MazeResearch
 
         private void btnCrossTest_Click(object sender, EventArgs e)
         {
-
-            //GetCrossingBlocks(Convert.ToInt32(txtCrossX.Text) * 10, Convert.ToInt32(txtCrossY.Text) * 10);
-
-            //DrawItemEventArgs 
             GetVisibleBlocks();
         }
 
@@ -214,14 +224,16 @@ namespace MazeResearch
             T1.CharacterID = 1;
             T1.Name = "Enemy";
             Entry entry = entries.Find(m => m.IsEntry);
-            T1.X = entry.X;
-            T1.Y = entry.Y;
+            //T1.X = entry.X;
+            //T1.Y = entry.Y;
+            T1.X = 50;
+            T1.Y = 50;
             T1.Direction = 0;
 
             if (g2 == null)
                 g2 = pnlCanvas.CreateGraphics();
             DrawToken();
-
+            DrawMap();
             //getVisibleBlocks();
         }
 
@@ -294,84 +306,145 @@ namespace MazeResearch
 
         // 3.  南南南南東東東東(不合法)
         //=> 南東南東南東南東
+
+        private char SubDirection(char direction, bool getFirst = true)
+        {
+            switch(direction)
+            {
+                case 'n':
+                    if (getFirst)
+                        return 'w';
+                    else
+                        return 'e';
+                case 's':
+                    if (getFirst)
+                        return 'e';
+                    else
+                        return 'w';
+                case 'e':
+                    if (getFirst)
+                        return 'n';
+                    else
+                        return 's';
+                case 'w':
+                    if (getFirst)
+                        return 's';
+                    else
+                        return 'n';
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction));
+            }
+        }
+
+        private bool MayGoBlock(Block checkBlock, char direction, out Block targetBlock)
+        {
+            targetBlock = null;
+            switch(direction)
+            {
+                case 'n':
+                    if (checkBlock.Y != 0 && blocks[(checkBlock.X, checkBlock.Y - 10)].SouthStatus == 0)
+                    {
+                        targetBlock = blocks[(checkBlock.X, checkBlock.Y - 10)];
+                        return true;
+                    }   
+                    else
+                        return false;                    
+                case 'e':
+                    if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
+                    {
+                        targetBlock = blocks[(checkBlock.X + 10, checkBlock.Y)];
+                        return true;
+                    }
+                    else
+                        return false;
+                case 's':
+                    if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                    {
+                        targetBlock = blocks[(checkBlock.X, checkBlock.Y + 10)];
+                        return true;
+                    }
+                    else
+                        return false;
+                case 'w':
+                    if (checkBlock.X != 0 && blocks[(checkBlock.X - 10, checkBlock.Y)].EastStatus == 0)
+                    { 
+                        targetBlock = blocks[(checkBlock.X - 10, checkBlock.Y)];
+                        return true;
+                    }
+                    else
+                        return false;
+            default:
+                    throw new ArgumentOutOfRangeException(nameof(direction));
+            }
+        }
+
+        private void btnClearVisibleBlocks_Click(object sender, EventArgs e)
+        {
+            visibleBlocksA.Clear();
+            DrawMap();
+        }
+
         private void CheckVisibleBlock(Block checkBlock, char mainDirection = ' ', char subDirection = ' ', int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
         {
+            Block target;
             if(!visibleBlocksA.ContainsKey((checkBlock.X, checkBlock.Y)))
                 visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);            
             switch (mainDirection)
             {
                 case ' ':
-                    if (checkBlock.Y != 0 && blocks[(checkBlock.X, checkBlock.Y - 10)].SouthStatus == 0)
-                        CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y - 10)], 'n', ' ', 1);
-                    if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                        CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], 's', ' ', 1);
-                    if (checkBlock.X != 0 && blocks[(checkBlock.X - 10, checkBlock.Y)].EastStatus == 0)
-                        CheckVisibleBlock(blocks[(checkBlock.X - 10, checkBlock.Y)], 'w', ' ', 1);
-                    if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
-                        CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], 'e', ' ', 1);
+                    if (MayGoBlock(checkBlock, 'n', out target))
+                        CheckVisibleBlock(target, 'n', ' ', 1);
+                    if (MayGoBlock(checkBlock, 's', out target))
+                        CheckVisibleBlock(target, 's', ' ', 1);
+                    if (MayGoBlock(checkBlock, 'w', out target))
+                        CheckVisibleBlock(target, 'w', ' ', 1);
+                    if (MayGoBlock(checkBlock, 'e', out target))
+                        CheckVisibleBlock(target, 'e', ' ', 1);
                     break;
-                case 's':
-                    //Check S
-                    if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                        CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, ' ', preMainTimes + 1);
-                    //CheckSubDirection
+                default:
                     if(subDirection == ' ')
                     {
-                        if (checkBlock.X != 0 && blocks[(checkBlock.X - 10, checkBlock.Y)].EastStatus == 0)
-                            CheckVisibleBlock(blocks[(checkBlock.X - 10, checkBlock.Y)], mainDirection, 'w', preMainTimes);
-                        if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
-                            CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], mainDirection, 'e', preMainTimes);
+                        if (MayGoBlock(checkBlock, mainDirection, out target))
+                            CheckVisibleBlock(target, mainDirection, ' ', preMainTimes + 1);
+                        if (MayGoBlock(checkBlock, SubDirection(mainDirection), out target))
+                            CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection), preMainTimes);
+                        if (MayGoBlock(checkBlock, SubDirection(mainDirection, false), out target))
+                            CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection, false), preMainTimes);
                     }
-                    else if (subDirection == 'e')
-                    {   
-                        if(repeatMainTimesAtLast == 0) //未決定方向
+                    else
+                    {
+                        if(repeatMainTimesAtLast == 0)
                         {
-                            if(repeatMainTimes == 0) //第一格
-                            {
-                                if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                                    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
+                            if (MayGoBlock(checkBlock, mainDirection, out target))
+                                CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
+                            if (repeatMainTimes != 0)
+                            {   
+                                if (MayGoBlock(checkBlock, subDirection, out target))
+                                    CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, 0, repeatMainTimes + 1);
                             }   
-                            else //第二格以後
-                            {
-                                if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                                    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
-                                if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
-                                    CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], mainDirection, subDirection, preMainTimes, 0, repeatMainTimes + 1);
-                            }
                         }
-                        else //已決定方向
+                        else
                         {
-                            if(repeatMainTimes != repeatMainTimesAtLast)
+                            if (repeatMainTimes != repeatMainTimesAtLast)
                             {
-                                if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                                    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1, repeatMainTimesAtLast);
+                                if (MayGoBlock(checkBlock, mainDirection, out target))
+                                    CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1, repeatMainTimesAtLast);
                             }
                             else
                             {
-                                if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
-                                    CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], mainDirection, subDirection, preMainTimes, 0, repeatMainTimesAtLast);
+                                if (MayGoBlock(checkBlock, subDirection, out target))
+                                    CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, 0, repeatMainTimesAtLast);                                
                             }
                         }
-                        //if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                        //    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
                     }
-                    break;
-                default:
-                    break;
+                    break;              
             }
         }
 
         private void GetVisibleBlocks()
-        {
-            visibleBlocksA.Clear();
-            //假設先往南
-            //start T1.X, T1.Y
-            //0為可以走
-            Block nowAt = blocks[(T1.X, T1.Y)];
-            CheckVisibleBlock(nowAt);
-            //CheckVisibleBlock(nowAt, 's', 'e');
+        {   
+            CheckVisibleBlock(blocks[(T1.X, T1.Y)]);
             DrawVisible();
-            //blocks[]
         }
 
         private void DrawVisible()
@@ -383,10 +456,15 @@ namespace MazeResearch
 
             foreach (Block block in visibleBlocksA.Values)
             {
+                if (block.X == 0 || blocks[(block.X - 10, block.Y)].EastStatus != 0)
+                    g.DrawLine(defaultPen, new Point(block.X * multipier, block.Y * multipier), new Point(block.X * multipier, (block.Y + 10) * multipier));
+                if (block.Y == 0 || blocks[(block.X, block.Y - 10)].SouthStatus != 0)
+                    g.DrawLine(defaultPen, new Point(block.X * multipier, block.Y * multipier), new Point((block.X + 10) * multipier, block.Y * multipier));
                 if (block.EastStatus != 0)
                     g.DrawLine(defaultPen, new Point((block.X + 10) * multipier, block.Y * multipier), new Point((block.X + 10) * multipier, (block.Y + 10) * multipier));
                 if (block.SouthStatus != 0)
                     g.DrawLine(defaultPen, new Point((block.X) * multipier, (block.Y + 10) * multipier), new Point((block.X + 10) * multipier, (block.Y + 10) * multipier));
+                
             }
             g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
             g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));

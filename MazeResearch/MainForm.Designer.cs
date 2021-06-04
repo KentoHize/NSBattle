@@ -44,6 +44,7 @@ namespace MazeResearch
             this.txtCrossY = new System.Windows.Forms.TextBox();
             this.lblw = new System.Windows.Forms.Label();
             this.lblh = new System.Windows.Forms.Label();
+            this.btnClearVisibleBlocks = new System.Windows.Forms.Button();
             this.pnlCanvas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).BeginInit();
             this.SuspendLayout();
@@ -157,7 +158,7 @@ namespace MazeResearch
             // 
             // txtCrossX
             // 
-            this.txtCrossX.Location = new System.Drawing.Point(1014, 377);
+            this.txtCrossX.Location = new System.Drawing.Point(951, 104);
             this.txtCrossX.Name = "txtCrossX";
             this.txtCrossX.Size = new System.Drawing.Size(61, 27);
             this.txtCrossX.TabIndex = 10;
@@ -165,7 +166,7 @@ namespace MazeResearch
             // 
             // txtCrossY
             // 
-            this.txtCrossY.Location = new System.Drawing.Point(1103, 377);
+            this.txtCrossY.Location = new System.Drawing.Point(1040, 104);
             this.txtCrossY.Name = "txtCrossY";
             this.txtCrossY.Size = new System.Drawing.Size(61, 27);
             this.txtCrossY.TabIndex = 11;
@@ -174,7 +175,7 @@ namespace MazeResearch
             // lblw
             // 
             this.lblw.AutoSize = true;
-            this.lblw.Location = new System.Drawing.Point(1014, 413);
+            this.lblw.Location = new System.Drawing.Point(951, 140);
             this.lblw.Name = "lblw";
             this.lblw.Size = new System.Drawing.Size(17, 20);
             this.lblw.TabIndex = 12;
@@ -183,17 +184,28 @@ namespace MazeResearch
             // lblh
             // 
             this.lblh.AutoSize = true;
-            this.lblh.Location = new System.Drawing.Point(1103, 413);
+            this.lblh.Location = new System.Drawing.Point(1040, 140);
             this.lblh.Name = "lblh";
             this.lblh.Size = new System.Drawing.Size(17, 20);
             this.lblh.TabIndex = 13;
             this.lblh.Text = "0";
+            // 
+            // btnClearVisibleBlocks
+            // 
+            this.btnClearVisibleBlocks.Location = new System.Drawing.Point(1098, 386);
+            this.btnClearVisibleBlocks.Name = "btnClearVisibleBlocks";
+            this.btnClearVisibleBlocks.Size = new System.Drawing.Size(110, 57);
+            this.btnClearVisibleBlocks.TabIndex = 14;
+            this.btnClearVisibleBlocks.Text = "清除已視";
+            this.btnClearVisibleBlocks.UseVisualStyleBackColor = true;
+            this.btnClearVisibleBlocks.Click += new System.EventHandler(this.btnClearVisibleBlocks_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 866);
+            this.Controls.Add(this.btnClearVisibleBlocks);
             this.Controls.Add(this.lblh);
             this.Controls.Add(this.lblw);
             this.Controls.Add(this.txtCrossY);
@@ -211,7 +223,7 @@ namespace MazeResearch
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "小地圖研究";
             this.pnlCanvas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).EndInit();
             this.ResumeLayout(false);
@@ -236,6 +248,7 @@ namespace MazeResearch
         private System.Windows.Forms.TextBox txtCrossY;
         private System.Windows.Forms.Label lblw;
         private System.Windows.Forms.Label lblh;
+        private System.Windows.Forms.Button btnClearVisibleBlocks;
     }
 }
 
