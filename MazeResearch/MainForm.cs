@@ -296,7 +296,8 @@ namespace MazeResearch
         //=> 南東南東南東南東
         private void CheckVisibleBlock(Block checkBlock, char mainDirection = ' ', char subDirection = ' ', int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
         {
-            visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);            
+            if(!visibleBlocksA.ContainsKey((checkBlock.X, checkBlock.Y)))
+                visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);            
             switch (mainDirection)
             {
                 case ' ':
@@ -334,14 +335,25 @@ namespace MazeResearch
                             {
                                 if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
                                     CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
+                                if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
+                                    CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], mainDirection, subDirection, preMainTimes, 0, repeatMainTimes + 1);
                             }
                         }
                         else //已決定方向
                         {
-
+                            if(repeatMainTimes != repeatMainTimesAtLast)
+                            {
+                                if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                                    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1, repeatMainTimesAtLast);
+                            }
+                            else
+                            {
+                                if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
+                                    CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], mainDirection, subDirection, preMainTimes, 0, repeatMainTimesAtLast);
+                            }
                         }
-                        if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                            CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
+                        //if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                        //    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
                     }
                     break;
                 default:
