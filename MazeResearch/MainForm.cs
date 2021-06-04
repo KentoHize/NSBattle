@@ -291,14 +291,62 @@ namespace MazeResearch
         //    }
         //    DrawVisible();
         //}
-        
+
         // 3.  南南南南東東東東(不合法)
         //=> 南東南東南東南東
-        private void CheckVisibleBlock(Block checkBlock, string route = "")
-        {   
-            visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);
-            if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)]);
+        private void CheckVisibleBlock(Block checkBlock, char mainDirection = ' ', char subDirection = ' ', int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
+        {
+            visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);            
+            switch (mainDirection)
+            {
+                case ' ':
+                    if (checkBlock.Y != 0 && blocks[(checkBlock.X, checkBlock.Y - 10)].SouthStatus == 0)
+                        CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y - 10)], 'n', ' ', 1);
+                    if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                        CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], 's', ' ', 1);
+                    if (checkBlock.X != 0 && blocks[(checkBlock.X - 10, checkBlock.Y)].EastStatus == 0)
+                        CheckVisibleBlock(blocks[(checkBlock.X - 10, checkBlock.Y)], 'w', ' ', 1);
+                    if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
+                        CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], 'e', ' ', 1);
+                    break;
+                case 's':
+                    //Check S
+                    if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                        CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, ' ', preMainTimes + 1);
+                    //CheckSubDirection
+                    if(subDirection == ' ')
+                    {
+                        if (checkBlock.X != 0 && blocks[(checkBlock.X - 10, checkBlock.Y)].EastStatus == 0)
+                            CheckVisibleBlock(blocks[(checkBlock.X - 10, checkBlock.Y)], mainDirection, 'w', preMainTimes);
+                        if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
+                            CheckVisibleBlock(blocks[(checkBlock.X + 10, checkBlock.Y)], mainDirection, 'e', preMainTimes);
+                    }
+                    else if (subDirection == 'e')
+                    {   
+                        if(repeatMainTimesAtLast == 0) //未決定方向
+                        {
+                            if(repeatMainTimes == 0) //第一格
+                            {
+                                if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                                    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
+                            }   
+                            else //第二格以後
+                            {
+                                if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                                    CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
+                            }
+                        }
+                        else //已決定方向
+                        {
+
+                        }
+                        if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
+                            CheckVisibleBlock(blocks[(checkBlock.X, checkBlock.Y + 10)], mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void GetVisibleBlocks()
@@ -309,6 +357,7 @@ namespace MazeResearch
             //0為可以走
             Block nowAt = blocks[(T1.X, T1.Y)];
             CheckVisibleBlock(nowAt);
+            //CheckVisibleBlock(nowAt, 's', 'e');
             DrawVisible();
             //blocks[]
         }
