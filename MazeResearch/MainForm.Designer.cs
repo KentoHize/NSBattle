@@ -83,8 +83,7 @@ namespace MazeResearch
             this.pnlMiniCanvas.Location = new System.Drawing.Point(922, 449);
             this.pnlMiniCanvas.Name = "pnlMiniCanvas";
             this.pnlMiniCanvas.Size = new System.Drawing.Size(424, 405);
-            this.pnlMiniCanvas.TabIndex = 2;
-            this.pnlMiniCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMiniCanvas_Paint);
+            this.pnlMiniCanvas.TabIndex = 2;            
             // 
             // btnStartSearch
             // 
