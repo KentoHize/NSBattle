@@ -246,46 +246,7 @@ namespace MazeResearch
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction));
             }
-        }
-
-        private bool MayGoBlock(Block checkBlock, char direction, out Block targetBlock)
-        {
-            targetBlock = null;
-            switch(direction)
-            {
-                case 'n':
-                    if (checkBlock.Y != 0 && blocks[(checkBlock.X, checkBlock.Y - 10)].SouthStatus == 0)
-                    {
-                        targetBlock = blocks[(checkBlock.X, checkBlock.Y - 10)];
-                        return true;
-                    }
-                    break;
-                case 'e':
-                    if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
-                    {
-                        targetBlock = blocks[(checkBlock.X + 10, checkBlock.Y)];
-                        return true;
-                    }
-                    break;
-                case 's':
-                    if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
-                    {
-                        targetBlock = blocks[(checkBlock.X, checkBlock.Y + 10)];
-                        return true;
-                    }
-                    break;
-                case 'w':
-                    if (checkBlock.X != 0 && blocks[(checkBlock.X - 10, checkBlock.Y)].EastStatus == 0)
-                    { 
-                        targetBlock = blocks[(checkBlock.X - 10, checkBlock.Y)];
-                        return true;
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction));
-            }
-            return false;
-        }
+        }        
 
         private void btnClearVisibleBlocks_Click(object sender, EventArgs e)
         {
@@ -301,34 +262,34 @@ namespace MazeResearch
             switch (mainDirection)
             {
                 case ' ':
-                    if (MayGoBlock(checkBlock, 'n', out target))
+                    if (blocks.MayGoBlock(area, checkBlock, 'n', out target))
                         CheckVisibleBlock(target, 'n', ' ', 1);
-                    if (MayGoBlock(checkBlock, 's', out target))
+                    if (blocks.MayGoBlock(area, checkBlock, 's', out target))
                         CheckVisibleBlock(target, 's', ' ', 1);
-                    if (MayGoBlock(checkBlock, 'w', out target))
+                    if (blocks.MayGoBlock(area, checkBlock, 'w', out target))
                         CheckVisibleBlock(target, 'w', ' ', 1);
-                    if (MayGoBlock(checkBlock, 'e', out target))
+                    if (blocks.MayGoBlock(area, checkBlock, 'e', out target))
                         CheckVisibleBlock(target, 'e', ' ', 1);
                     break;
                 default:
                     if(subDirection == ' ')
                     {
-                        if (MayGoBlock(checkBlock, mainDirection, out target))
+                        if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
                             CheckVisibleBlock(target, mainDirection, ' ', preMainTimes + 1);
-                        if (MayGoBlock(checkBlock, SubDirection(mainDirection), out target))
+                        if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection), out target))
                             CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection), preMainTimes);
-                        if (MayGoBlock(checkBlock, SubDirection(mainDirection, false), out target))
+                        if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection, false), out target))
                             CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection, false), preMainTimes);
                     }
                     else
                     {
                         if(repeatMainTimesAtLast == 0)
                         {
-                            if (MayGoBlock(checkBlock, mainDirection, out target))
+                            if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
                                 CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);                            
                             if (repeatMainTimes >= preMainTimes)
                             {   
-                                if (MayGoBlock(checkBlock, subDirection, out target))
+                                if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
                                     CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, 0, repeatMainTimes);
                             }   
                         }
@@ -336,12 +297,12 @@ namespace MazeResearch
                         {
                             if (repeatMainTimes < repeatMainTimesAtLast)
                             {
-                                if (MayGoBlock(checkBlock, mainDirection, out target))
+                                if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
                                     CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1, repeatMainTimesAtLast);
                             }
                             else
                             {
-                                if (MayGoBlock(checkBlock, subDirection, out target))
+                                if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
                                     CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes, repeatMainTimesAtLast);
                             }                           
                         }

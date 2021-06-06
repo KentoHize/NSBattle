@@ -10,7 +10,7 @@ namespace NSBattle
         public byte EastStatus { get; set; }
         public byte SouthStatus { get; set; }
         public int X { get; set; }
-        public int Y { get; set; }
+        public int Y { get; set; }        
     }
 
     public enum BlockStatus
