@@ -45,6 +45,9 @@ namespace MazeResearch
             this.lblw = new System.Windows.Forms.Label();
             this.lblh = new System.Windows.Forms.Label();
             this.btnClearVisibleBlocks = new System.Windows.Forms.Button();
+            this.btnGoTo = new System.Windows.Forms.Button();
+            this.txtTargetX = new System.Windows.Forms.TextBox();
+            this.txtTargetY = new System.Windows.Forms.TextBox();
             this.pnlCanvas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).BeginInit();
             this.SuspendLayout();
@@ -83,7 +86,7 @@ namespace MazeResearch
             this.pnlMiniCanvas.Location = new System.Drawing.Point(922, 449);
             this.pnlMiniCanvas.Name = "pnlMiniCanvas";
             this.pnlMiniCanvas.Size = new System.Drawing.Size(424, 405);
-            this.pnlMiniCanvas.TabIndex = 2;            
+            this.pnlMiniCanvas.TabIndex = 2;
             // 
             // btnStartSearch
             // 
@@ -162,6 +165,7 @@ namespace MazeResearch
             this.txtCrossX.Size = new System.Drawing.Size(61, 27);
             this.txtCrossX.TabIndex = 10;
             this.txtCrossX.Text = "3";
+            this.txtCrossX.Visible = false;
             // 
             // txtCrossY
             // 
@@ -170,6 +174,7 @@ namespace MazeResearch
             this.txtCrossY.Size = new System.Drawing.Size(61, 27);
             this.txtCrossY.TabIndex = 11;
             this.txtCrossY.Text = "5";
+            this.txtCrossY.Visible = false;
             // 
             // lblw
             // 
@@ -179,6 +184,7 @@ namespace MazeResearch
             this.lblw.Size = new System.Drawing.Size(17, 20);
             this.lblw.TabIndex = 12;
             this.lblw.Text = "0";
+            this.lblw.Visible = false;
             // 
             // lblh
             // 
@@ -188,6 +194,7 @@ namespace MazeResearch
             this.lblh.Size = new System.Drawing.Size(17, 20);
             this.lblh.TabIndex = 13;
             this.lblh.Text = "0";
+            this.lblh.Visible = false;
             // 
             // btnClearVisibleBlocks
             // 
@@ -199,11 +206,42 @@ namespace MazeResearch
             this.btnClearVisibleBlocks.UseVisualStyleBackColor = true;
             this.btnClearVisibleBlocks.Click += new System.EventHandler(this.btnClearVisibleBlocks_Click);
             // 
+            // btnGoTo
+            // 
+            this.btnGoTo.Location = new System.Drawing.Point(951, 386);
+            this.btnGoTo.Name = "btnGoTo";
+            this.btnGoTo.Size = new System.Drawing.Size(110, 57);
+            this.btnGoTo.TabIndex = 15;
+            this.btnGoTo.Text = "移動開始";
+            this.btnGoTo.UseVisualStyleBackColor = true;
+            this.btnGoTo.Click += new System.EventHandler(this.btnGoTo_Click);
+            // 
+            // txtTargetX
+            // 
+            this.txtTargetX.Location = new System.Drawing.Point(951, 340);
+            this.txtTargetX.Name = "txtTargetX";
+            this.txtTargetX.Size = new System.Drawing.Size(61, 27);
+            this.txtTargetX.TabIndex = 16;
+            this.txtTargetX.Text = "3";
+            this.txtTargetX.Visible = false;
+            // 
+            // txtTargetY
+            // 
+            this.txtTargetY.Location = new System.Drawing.Point(1018, 340);
+            this.txtTargetY.Name = "txtTargetY";
+            this.txtTargetY.Size = new System.Drawing.Size(61, 27);
+            this.txtTargetY.TabIndex = 17;
+            this.txtTargetY.Text = "3";
+            this.txtTargetY.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 866);
+            this.Controls.Add(this.txtTargetY);
+            this.Controls.Add(this.txtTargetX);
+            this.Controls.Add(this.btnGoTo);
             this.Controls.Add(this.btnClearVisibleBlocks);
             this.Controls.Add(this.lblh);
             this.Controls.Add(this.lblw);
@@ -248,6 +286,9 @@ namespace MazeResearch
         private System.Windows.Forms.Label lblw;
         private System.Windows.Forms.Label lblh;
         private System.Windows.Forms.Button btnClearVisibleBlocks;
+        private System.Windows.Forms.Button btnGoTo;
+        private System.Windows.Forms.TextBox txtTargetX;
+        private System.Windows.Forms.TextBox txtTargetY;
     }
 }
 

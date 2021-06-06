@@ -219,34 +219,11 @@ namespace MazeResearch
             DrawMap();            
         }
 
-        private char SubDirection(char direction, bool getFirst = true)
+        private void btnGoTo_Click(object sender, EventArgs e)
         {
-            switch(direction)
-            {
-                case 'n':
-                    if (getFirst)
-                        return 'w';
-                    else
-                        return 'e';
-                case 's':
-                    if (getFirst)
-                        return 'e';
-                    else
-                        return 'w';
-                case 'e':
-                    if (getFirst)
-                        return 'n';
-                    else
-                        return 's';
-                case 'w':
-                    if (getFirst)
-                        return 's';
-                    else
-                        return 'n';
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction));
-            }
-        }        
+            var route = blocks.GetRoute(area, Convert.ToInt32(txtTargetX.Text), Convert.ToInt32(txtTargetY.Text));
+            
+        }
 
         private void btnClearVisibleBlocks_Click(object sender, EventArgs e)
         {
@@ -254,66 +231,66 @@ namespace MazeResearch
             DrawMap();
         }
 
-        private void CheckVisibleBlock(Block checkBlock, char mainDirection = ' ', char subDirection = ' ', int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
-        {
-            Block target;
-            if(!visibleBlocksA.ContainsKey((checkBlock.X, checkBlock.Y)))
-                visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);            
-            switch (mainDirection)
-            {
-                case ' ':
-                    if (blocks.MayGoBlock(area, checkBlock, 'n', out target))
-                        CheckVisibleBlock(target, 'n', ' ', 1);
-                    if (blocks.MayGoBlock(area, checkBlock, 's', out target))
-                        CheckVisibleBlock(target, 's', ' ', 1);
-                    if (blocks.MayGoBlock(area, checkBlock, 'w', out target))
-                        CheckVisibleBlock(target, 'w', ' ', 1);
-                    if (blocks.MayGoBlock(area, checkBlock, 'e', out target))
-                        CheckVisibleBlock(target, 'e', ' ', 1);
-                    break;
-                default:
-                    if(subDirection == ' ')
-                    {
-                        if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
-                            CheckVisibleBlock(target, mainDirection, ' ', preMainTimes + 1);
-                        if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection), out target))
-                            CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection), preMainTimes);
-                        if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection, false), out target))
-                            CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection, false), preMainTimes);
-                    }
-                    else
-                    {
-                        if(repeatMainTimesAtLast == 0)
-                        {
-                            if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
-                                CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);                            
-                            if (repeatMainTimes >= preMainTimes)
-                            {   
-                                if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
-                                    CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, 0, repeatMainTimes);
-                            }   
-                        }
-                        else
-                        {
-                            if (repeatMainTimes < repeatMainTimesAtLast)
-                            {
-                                if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
-                                    CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1, repeatMainTimesAtLast);
-                            }
-                            else
-                            {
-                                if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
-                                    CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes, repeatMainTimesAtLast);
-                            }                           
-                        }
-                    }
-                    break;              
-            }
-        }
+        //private void CheckVisibleBlock(Block checkBlock, char mainDirection = ' ', char subDirection = ' ', int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
+        //{
+        //    Block target;
+        //    if(!visibleBlocksA.ContainsKey((checkBlock.X, checkBlock.Y)))
+        //        visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);            
+        //    switch (mainDirection)
+        //    {
+        //        case ' ':
+        //            if (blocks.MayGoBlock(area, checkBlock, 'n', out target))
+        //                CheckVisibleBlock(target, 'n', ' ', 1);
+        //            if (blocks.MayGoBlock(area, checkBlock, 's', out target))
+        //                CheckVisibleBlock(target, 's', ' ', 1);
+        //            if (blocks.MayGoBlock(area, checkBlock, 'w', out target))
+        //                CheckVisibleBlock(target, 'w', ' ', 1);
+        //            if (blocks.MayGoBlock(area, checkBlock, 'e', out target))
+        //                CheckVisibleBlock(target, 'e', ' ', 1);
+        //            break;
+        //        default:
+        //            if(subDirection == ' ')
+        //            {
+        //                if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
+        //                    CheckVisibleBlock(target, mainDirection, ' ', preMainTimes + 1);
+        //                if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection), out target))
+        //                    CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection), preMainTimes);
+        //                if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection, false), out target))
+        //                    CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection, false), preMainTimes);
+        //            }
+        //            else
+        //            {
+        //                if(repeatMainTimesAtLast == 0)
+        //                {
+        //                    if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
+        //                        CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);                            
+        //                    if (repeatMainTimes >= preMainTimes)
+        //                    {   
+        //                        if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
+        //                            CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, 0, repeatMainTimes);
+        //                    }   
+        //                }
+        //                else
+        //                {
+        //                    if (repeatMainTimes < repeatMainTimesAtLast)
+        //                    {
+        //                        if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
+        //                            CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1, repeatMainTimesAtLast);
+        //                    }
+        //                    else
+        //                    {
+        //                        if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
+        //                            CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes, repeatMainTimesAtLast);
+        //                    }                           
+        //                }
+        //            }
+        //            break;              
+        //    }
+        //}
 
         private void GetVisibleBlocks()
         {   
-            CheckVisibleBlock(blocks[(T1.X, T1.Y)]);
+            blocks.CheckVisibleBlock(area, visibleBlocksA, blocks[(T1.X, T1.Y)]);
             DrawVisible();
         }
 
@@ -338,16 +315,6 @@ namespace MazeResearch
             }
             g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
             g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
-        }
-
-        private void getVisibleBlocks()
-        {
-
-        }
-
-        private int getConsealmentAndVisibleBlocks()
-        {
-            return 21;
-        }
+        }    
     }
 }
