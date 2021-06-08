@@ -12,16 +12,39 @@ namespace NSBattle
 
     public static class ExtendMethods
     {        
-        public static int GetConcealment(this SortedDictionary<(int, int), Block> blocks, Area area, Block blockA, Block blockB)
+        public static int GetConcealment(this SortedDictionary<(int, int), Block> blocks, Area area, Block blockA, Block blockB, List<(int, int)> crossPoints)
         {
             //blocks
             int lengthX = blockA.X - blockB.X;
             int lengthY = blockA.Y - blockB.Y;
             double lengthZ = Math.Pow((lengthX * lengthX + lengthY * lengthY), 0.5);
-            return (int)(100 * (double)lengthY / lengthZ);
-            //(blockA.Y - blockB.Y) / Math.Pow((blockA.X - blockB.X), 2) + Math.Pow((blockA.Y - blockB.Y), 2);
+            
 
-            //return 0;
+            //lenngthY * x + lengthX * y 
+            //eq = x + (lengthX / lengthY) y = A
+            //eq = x + (lengthX / lengthY) y = B
+            crossPoints.Clear();
+            int c1, c2, c3;
+            if((lengthX < 0 && lengthY >= 0) || (lengthX >= 0 && lengthY < 0))
+            {
+                c1 = lengthY * (blockA.X + 10) + lengthX * blockB.Y;
+                c2 = lengthY * blockA.X + lengthX * (blockB.Y + 10);
+
+                
+            }
+            else
+            {
+                c1 = lengthY * blockA.X + lengthX * blockB.Y;
+                c2 = lengthY * (blockA.X + 10) + lengthX * (blockB.Y + 10);
+
+                foreach(Block b in blocks.Values)
+                {
+                    c3 = b.X * lengthY + b.Y * lengthX;
+                    if (c3 > c1 && c3 < c2)
+                        crossPoints.Add((b.X, b.Y));
+                }   
+            }
+            return (int)(100 * (double)lengthY / lengthZ);
         }
 
         public static List<(int, int)> GetRoute(this SortedDictionary<(int, int), Block> blocks, Area area, int X, int Y)

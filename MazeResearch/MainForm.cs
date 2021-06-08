@@ -23,6 +23,7 @@ namespace MazeResearch
         public string DataPath = @"C:\Programs\WinForm\NSBattle\MazeResearch\Data\";
         Pen defaultPen = new Pen(Brushes.Black);
         Pen whitePen = new Pen(Brushes.White);
+        Pen redPen = new Pen(Brushes.Red);
 
         Area area;
         Graphics g, g2, g3;
@@ -32,6 +33,8 @@ namespace MazeResearch
 
         SortedDictionary<(int x, int y), Block> blocks = new SortedDictionary<(int, int), Block>();
         SortedDictionary<(int x, int y), Block> visibleBlocksA = new SortedDictionary<(int, int), Block>();
+        List<(int x, int y)> crossPoints = new List<(int x, int y)>();
+
         List<Entry> entries;
         Character C1, C2;
         Token T1, T2;
@@ -203,7 +206,8 @@ namespace MazeResearch
 
         private void btnCalculateConcealment_Click(object sender, EventArgs e)
         {
-            lblConcealmentH.Text = blocks.GetConcealment(area, blocks[(T1.X, T1.Y)], blocks[(Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text))]).ToString();
+            lblConcealmentH.Text = blocks.GetConcealment(area, blocks[(T1.X, T1.Y)], blocks[(Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text))], crossPoints).ToString();
+            DrawVisible();
         }
 
         private void txtCrossY_TextChanged(object sender, EventArgs e)
@@ -239,65 +243,8 @@ namespace MazeResearch
         {
             visibleBlocksA.Clear();
             DrawMap();
-        }
-
-        //private void CheckVisibleBlock(Block checkBlock, char mainDirection = ' ', char subDirection = ' ', int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
-        //{
-        //    Block target;
-        //    if(!visibleBlocksA.ContainsKey((checkBlock.X, checkBlock.Y)))
-        //        visibleBlocksA.Add((checkBlock.X, checkBlock.Y), checkBlock);            
-        //    switch (mainDirection)
-        //    {
-        //        case ' ':
-        //            if (blocks.MayGoBlock(area, checkBlock, 'n', out target))
-        //                CheckVisibleBlock(target, 'n', ' ', 1);
-        //            if (blocks.MayGoBlock(area, checkBlock, 's', out target))
-        //                CheckVisibleBlock(target, 's', ' ', 1);
-        //            if (blocks.MayGoBlock(area, checkBlock, 'w', out target))
-        //                CheckVisibleBlock(target, 'w', ' ', 1);
-        //            if (blocks.MayGoBlock(area, checkBlock, 'e', out target))
-        //                CheckVisibleBlock(target, 'e', ' ', 1);
-        //            break;
-        //        default:
-        //            if(subDirection == ' ')
-        //            {
-        //                if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
-        //                    CheckVisibleBlock(target, mainDirection, ' ', preMainTimes + 1);
-        //                if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection), out target))
-        //                    CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection), preMainTimes);
-        //                if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection, false), out target))
-        //                    CheckVisibleBlock(target, mainDirection, SubDirection(mainDirection, false), preMainTimes);
-        //            }
-        //            else
-        //            {
-        //                if(repeatMainTimesAtLast == 0)
-        //                {
-        //                    if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
-        //                        CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1);                            
-        //                    if (repeatMainTimes >= preMainTimes)
-        //                    {   
-        //                        if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
-        //                            CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, 0, repeatMainTimes);
-        //                    }   
-        //                }
-        //                else
-        //                {
-        //                    if (repeatMainTimes < repeatMainTimesAtLast)
-        //                    {
-        //                        if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
-        //                            CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes + 1, repeatMainTimesAtLast);
-        //                    }
-        //                    else
-        //                    {
-        //                        if (blocks.MayGoBlock(area, checkBlock, subDirection, out target))
-        //                            CheckVisibleBlock(target, mainDirection, subDirection, preMainTimes, repeatMainTimes, repeatMainTimesAtLast);
-        //                    }                           
-        //                }
-        //            }
-        //            break;              
-        //    }
-        //}
-
+        }       
+   
         private void GetVisibleBlocks()
         {   
             blocks.CheckVisibleBlock(area, visibleBlocksA, blocks[(T1.X, T1.Y)]);
@@ -325,6 +272,13 @@ namespace MazeResearch
             }
             g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length * multipier, 0));
             g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width * multipier));
+
+            if(crossPoints.Count != 0)
+            {
+                foreach ((int x, int y) cp in crossPoints)
+                    //g.DrawEllipse(redPen, cp.x * multipier, cp.y * multipier, 2, 2);
+                g.FillEllipse(Brushes.Red, cp.x * multipier, cp.y * multipier, multipier, multipier);
+            }
         }    
     }
 }
