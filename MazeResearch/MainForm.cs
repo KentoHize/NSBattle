@@ -201,6 +201,16 @@ namespace MazeResearch
             GetVisibleBlocks();
         }
 
+        private void btnCalculateConcealment_Click(object sender, EventArgs e)
+        {
+            lblConcealmentH.Text = blocks.GetConcealment(area, blocks[(T1.X, T1.Y)], blocks[(Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text))]).ToString();
+        }
+
+        private void txtCrossY_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnStartSearch_Click(object sender, EventArgs e)
         {
             C1 = new Character();

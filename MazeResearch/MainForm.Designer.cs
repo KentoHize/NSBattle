@@ -48,6 +48,9 @@ namespace MazeResearch
             this.btnGoTo = new System.Windows.Forms.Button();
             this.txtTargetX = new System.Windows.Forms.TextBox();
             this.txtTargetY = new System.Windows.Forms.TextBox();
+            this.btnCalculateConcealment = new System.Windows.Forms.Button();
+            this.lblConcealmentH = new System.Windows.Forms.Label();
+            this.lblConcealmentV = new System.Windows.Forms.Label();
             this.pnlCanvas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).BeginInit();
             this.SuspendLayout();
@@ -160,21 +163,20 @@ namespace MazeResearch
             // 
             // txtCrossX
             // 
-            this.txtCrossX.Location = new System.Drawing.Point(951, 104);
+            this.txtCrossX.Location = new System.Drawing.Point(951, 12);
             this.txtCrossX.Name = "txtCrossX";
             this.txtCrossX.Size = new System.Drawing.Size(61, 27);
             this.txtCrossX.TabIndex = 10;
-            this.txtCrossX.Text = "3";
-            this.txtCrossX.Visible = false;
+            this.txtCrossX.Text = "10";
             // 
             // txtCrossY
             // 
-            this.txtCrossY.Location = new System.Drawing.Point(1040, 104);
+            this.txtCrossY.Location = new System.Drawing.Point(1018, 12);
             this.txtCrossY.Name = "txtCrossY";
             this.txtCrossY.Size = new System.Drawing.Size(61, 27);
             this.txtCrossY.TabIndex = 11;
-            this.txtCrossY.Text = "5";
-            this.txtCrossY.Visible = false;
+            this.txtCrossY.Text = "10";
+            this.txtCrossY.TextChanged += new System.EventHandler(this.txtCrossY_TextChanged);
             // 
             // lblw
             // 
@@ -234,11 +236,42 @@ namespace MazeResearch
             this.txtTargetY.Text = "3";
             this.txtTargetY.Visible = false;
             // 
+            // btnCalculateConcealment
+            // 
+            this.btnCalculateConcealment.Location = new System.Drawing.Point(1005, 63);
+            this.btnCalculateConcealment.Name = "btnCalculateConcealment";
+            this.btnCalculateConcealment.Size = new System.Drawing.Size(110, 57);
+            this.btnCalculateConcealment.TabIndex = 18;
+            this.btnCalculateConcealment.Text = "計算隱蔽";
+            this.btnCalculateConcealment.UseVisualStyleBackColor = true;
+            this.btnCalculateConcealment.Click += new System.EventHandler(this.btnCalculateConcealment_Click);
+            // 
+            // lblConcealmentH
+            // 
+            this.lblConcealmentH.AutoSize = true;
+            this.lblConcealmentH.Location = new System.Drawing.Point(951, 63);
+            this.lblConcealmentH.Name = "lblConcealmentH";
+            this.lblConcealmentH.Size = new System.Drawing.Size(17, 20);
+            this.lblConcealmentH.TabIndex = 19;
+            this.lblConcealmentH.Text = "0";
+            // 
+            // lblConcealmentV
+            // 
+            this.lblConcealmentV.AutoSize = true;
+            this.lblConcealmentV.Location = new System.Drawing.Point(951, 100);
+            this.lblConcealmentV.Name = "lblConcealmentV";
+            this.lblConcealmentV.Size = new System.Drawing.Size(17, 20);
+            this.lblConcealmentV.TabIndex = 20;
+            this.lblConcealmentV.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 866);
+            this.Controls.Add(this.lblConcealmentV);
+            this.Controls.Add(this.lblConcealmentH);
+            this.Controls.Add(this.btnCalculateConcealment);
             this.Controls.Add(this.txtTargetY);
             this.Controls.Add(this.txtTargetX);
             this.Controls.Add(this.btnGoTo);
@@ -289,6 +322,9 @@ namespace MazeResearch
         private System.Windows.Forms.Button btnGoTo;
         private System.Windows.Forms.TextBox txtTargetX;
         private System.Windows.Forms.TextBox txtTargetY;
+        private System.Windows.Forms.Button btnCalculateConcealment;
+        private System.Windows.Forms.Label lblConcealmentH;
+        private System.Windows.Forms.Label lblConcealmentV;
     }
 }
 

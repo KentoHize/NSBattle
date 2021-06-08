@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace NSBattle
@@ -12,11 +11,17 @@ namespace NSBattle
     //第三條路徑必然有格子不在清單A、B，以此類推
 
     public static class ExtendMethods
-    {
-        
+    {        
         public static int GetConcealment(this SortedDictionary<(int, int), Block> blocks, Area area, Block blockA, Block blockB)
         {
-            return 0;
+            //blocks
+            int lengthX = blockA.X - blockB.X;
+            int lengthY = blockA.Y - blockB.Y;
+            double lengthZ = Math.Pow((lengthX * lengthX + lengthY * lengthY), 0.5);
+            return (int)(100 * (double)lengthY / lengthZ);
+            //(blockA.Y - blockB.Y) / Math.Pow((blockA.X - blockB.X), 2) + Math.Pow((blockA.Y - blockB.Y), 2);
+
+            //return 0;
         }
 
         public static List<(int, int)> GetRoute(this SortedDictionary<(int, int), Block> blocks, Area area, int X, int Y)
