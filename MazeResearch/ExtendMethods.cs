@@ -11,39 +11,101 @@ namespace NSBattle
     //第三條路徑必然有格子不在清單A、B，以此類推
 
     public static class ExtendMethods
-    {        
-        public static int GetConcealment(this SortedDictionary<(int, int), Block> blocks, Area area, Block blockA, Block blockB, List<(int, int)> crossPoints)
-        {
-            //blocks
+    {
+        public static int GetConcealment(this SortedDictionary<(int, int), Block> blocks, Area area, Block blockA, Block blockB, List<(int x, int y)> crossPoints, List<((int x, int y) a, (int x, int y) b)> lines)
+        {   
             int lengthX = blockA.X - blockB.X;
             int lengthY = blockA.Y - blockB.Y;
             double lengthZ = Math.Pow((lengthX * lengthX + lengthY * lengthY), 0.5);
-            
+            bool isSlash;
 
             //lenngthY * x + lengthX * y 
             //eq = x + (lengthX / lengthY) y = A
             //eq = x + (lengthX / lengthY) y = B
-            crossPoints.Clear();
-            int c1, c2, c3;
-            if((lengthX < 0 && lengthY >= 0) || (lengthX >= 0 && lengthY < 0))
+            int smallX, bigX;
+            int smallY, bigY;
+            if (blockA.X > blockB.X)
             {
-                c1 = lengthY * (blockA.X + 10) + lengthX * blockB.Y;
-                c2 = lengthY * blockA.X + lengthX * (blockB.Y + 10);
-
-                
+                smallX = blockB.X;
+                bigX = blockA.X + 10;
             }
             else
             {
-                c1 = lengthY * blockA.X + lengthX * blockB.Y;
-                c2 = lengthY * (blockA.X + 10) + lengthX * (blockB.Y + 10);
-
-                foreach(Block b in blocks.Values)
-                {
-                    c3 = b.X * lengthY + b.Y * lengthX;
-                    if (c3 > c1 && c3 < c2)
-                        crossPoints.Add((b.X, b.Y));
-                }   
+                smallX = blockA.X;
+                bigX = blockB.X + 10;
             }
+
+            if (blockA.Y > blockB.Y)
+            {
+                smallY = blockB.Y;
+                bigY = blockA.Y + 10;
+            }
+            else
+            {
+                smallY = blockA.Y;
+                bigY = blockB.Y + 10;
+            }
+
+
+            crossPoints.Clear();
+            int c1, c2, c3;
+            if((lengthX < 0 && lengthY >= 0) || (lengthX >= 0 && lengthY < 0))
+            {                
+                c1 = lengthY * blockA.X + lengthX * blockA.Y * -1;
+                c2 = lengthY * (blockA.X + 10) + lengthX * (blockA.Y * -1 - 10);
+                isSlash = false;
+            }
+            else
+            {
+                c1 = lengthY * (blockA.X + 10) + lengthX * blockA.Y * -1;
+                c2 = lengthY * blockA.X + lengthX * (blockA.Y * -1 - 10);
+                isSlash = true;
+            }
+
+            
+            
+            for(int x = smallX; x <= bigX; x += 10)
+            {
+                for (int y = smallY; y <= bigY; y += 10)
+                {
+                    if(isSlash)
+                    {
+                        if ((x == smallX && y == smallY) ||
+                            (x == bigX && y == bigY))
+                            continue;
+                    }
+                    else
+                    {
+                        if ((x == smallX && y == bigY) ||
+                            (x == bigX && y == smallY))
+                            continue;
+                    }
+
+                    c3 = lengthY * x + lengthX * y * -1;
+                    if ((c3 > c1 && c3 < c2) || (c3 > c2 && c3 < c1))
+                        crossPoints.Add((x, y));
+
+                    if(isSlash)
+                    {   
+                        if (blocks.ContainsKey((x, y)) && blocks[(x,y)].SouthStatus != 0)
+                            lines.Add(((x, y), (x + 3, y - 3)));
+                        //    (100 * lengthY / lengthZ)
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+            //for(int i = 0; i < crossPoints.Count; i++)
+            //{
+            //    //if(blocks.ContainsKey(crossPoints[i]) && blocks[crossPoints[i]].SouthStatus != 0)                    
+
+            //         //100 *(lengthY * crossPoints[i].x + lengthX * crossPoints[i].y * - 1) / (c2 - c1);
+            //}
+
+
             return (int)(100 * (double)lengthY / lengthZ);
         }
 

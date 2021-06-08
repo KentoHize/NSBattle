@@ -35,6 +35,9 @@ namespace MazeResearch
         SortedDictionary<(int x, int y), Block> visibleBlocksA = new SortedDictionary<(int, int), Block>();
         List<(int x, int y)> crossPoints = new List<(int x, int y)>();
 
+        (int x, int y) target;
+        List<((int x, int y), (int x, int y))> lines = new List<((int x, int y), (int x, int y))>();
+
         List<Entry> entries;
         Character C1, C2;
         Token T1, T2;
@@ -206,13 +209,17 @@ namespace MazeResearch
 
         private void btnCalculateConcealment_Click(object sender, EventArgs e)
         {
-            lblConcealmentH.Text = blocks.GetConcealment(area, blocks[(T1.X, T1.Y)], blocks[(Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text))], crossPoints).ToString();
+            target = (Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text));
+            lblConcealmentH.Text = blocks.GetConcealment(area, blocks[(T1.X, T1.Y)], blocks[(Convert.ToInt32(txtCrossX.Text), Convert.ToInt32(txtCrossY.Text))], crossPoints, lines).ToString();
             DrawVisible();
         }
 
-        private void txtCrossY_TextChanged(object sender, EventArgs e)
+        private void btnAllOpen_Click(object sender, EventArgs e)
         {
-
+            visibleBlocksA.Clear();
+            foreach (var b in blocks)
+                visibleBlocksA.Add(b.Key, b.Value);
+            DrawVisible();
         }
 
         private void btnStartSearch_Click(object sender, EventArgs e)
@@ -275,9 +282,17 @@ namespace MazeResearch
 
             if(crossPoints.Count != 0)
             {
-                foreach ((int x, int y) cp in crossPoints)
-                    //g.DrawEllipse(redPen, cp.x * multipier, cp.y * multipier, 2, 2);
-                g.FillEllipse(Brushes.Red, cp.x * multipier, cp.y * multipier, multipier, multipier);
+                foreach ((int x, int y) cp in crossPoints)                    
+                    g.FillEllipse(Brushes.Red, cp.x * multipier, cp.y * multipier, multipier, multipier);
+            }
+
+            if(target != (0, 0))
+                g.FillEllipse(Brushes.Red, target.x * multipier + multipier, target.y * multipier + multipier, 8 * multipier, 8 * multipier);
+
+            if (lines.Count != 0)
+            {
+                foreach (((int x, int y) a, (int x, int y) b) l in lines)
+                    g.DrawLine(redPen, l.a.x * multipier, l.a.y * multipier, l.b.x * multipier, l.b.y * multipier);
             }
         }    
     }

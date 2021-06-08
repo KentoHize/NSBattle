@@ -51,6 +51,7 @@ namespace MazeResearch
             this.btnCalculateConcealment = new System.Windows.Forms.Button();
             this.lblConcealmentH = new System.Windows.Forms.Label();
             this.lblConcealmentV = new System.Windows.Forms.Label();
+            this.btnAllOpen = new System.Windows.Forms.Button();
             this.pnlCanvas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picT1)).BeginInit();
             this.SuspendLayout();
@@ -176,12 +177,11 @@ namespace MazeResearch
             this.txtCrossY.Size = new System.Drawing.Size(61, 27);
             this.txtCrossY.TabIndex = 11;
             this.txtCrossY.Text = "10";
-            this.txtCrossY.TextChanged += new System.EventHandler(this.txtCrossY_TextChanged);
             // 
             // lblw
             // 
             this.lblw.AutoSize = true;
-            this.lblw.Location = new System.Drawing.Point(951, 140);
+            this.lblw.Location = new System.Drawing.Point(955, 298);
             this.lblw.Name = "lblw";
             this.lblw.Size = new System.Drawing.Size(17, 20);
             this.lblw.TabIndex = 12;
@@ -191,7 +191,7 @@ namespace MazeResearch
             // lblh
             // 
             this.lblh.AutoSize = true;
-            this.lblh.Location = new System.Drawing.Point(1040, 140);
+            this.lblh.Location = new System.Drawing.Point(1044, 298);
             this.lblh.Name = "lblh";
             this.lblh.Size = new System.Drawing.Size(17, 20);
             this.lblh.TabIndex = 13;
@@ -264,11 +264,22 @@ namespace MazeResearch
             this.lblConcealmentV.TabIndex = 20;
             this.lblConcealmentV.Text = "0";
             // 
+            // btnAllOpen
+            // 
+            this.btnAllOpen.Location = new System.Drawing.Point(1005, 126);
+            this.btnAllOpen.Name = "btnAllOpen";
+            this.btnAllOpen.Size = new System.Drawing.Size(110, 57);
+            this.btnAllOpen.TabIndex = 21;
+            this.btnAllOpen.Text = "地圖全開";
+            this.btnAllOpen.UseVisualStyleBackColor = true;
+            this.btnAllOpen.Click += new System.EventHandler(this.btnAllOpen_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 866);
+            this.Controls.Add(this.btnAllOpen);
             this.Controls.Add(this.lblConcealmentV);
             this.Controls.Add(this.lblConcealmentH);
             this.Controls.Add(this.btnCalculateConcealment);
@@ -325,6 +336,7 @@ namespace MazeResearch
         private System.Windows.Forms.Button btnCalculateConcealment;
         private System.Windows.Forms.Label lblConcealmentH;
         private System.Windows.Forms.Label lblConcealmentV;
+        private System.Windows.Forms.Button btnAllOpen;
     }
 }
 
