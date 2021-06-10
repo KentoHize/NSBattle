@@ -83,29 +83,27 @@ namespace NSBattle
 
                     c3 = lengthY * x + lengthX * y * -1;
                     if ((c3 > c1 && c3 < c2) || (c3 > c2 && c3 < c1))
-                        crossPoints.Add((x, y));
-
-                    if(isSlash)
-                    {   
-                        if (blocks.ContainsKey((x, y)) && blocks[(x,y)].SouthStatus != 0)
-                            lines.Add(((x, y), (x + 3, y - 3)));
-                        //    (100 * lengthY / lengthZ)
-                    }
-                    else
                     {
+                        crossPoints.Add((x, y));
+                        if (isSlash)
+                        {
+                            if (blocks.ContainsKey((x - 10, y - 10)) && blocks[(x - 10, y - 10)].SouthStatus != 0)
+                                lines.Add(((x - 10, y), (x, y)));
+                            if (blocks.ContainsKey((x - 10, y - 10)) && blocks[(x - 10, y - 10)].EastStatus != 0)
+                                lines.Add(((x, y - 10), (x, y)));
+                            if (blocks.ContainsKey((x, y - 10)) && blocks[(x, y - 10)].SouthStatus != 0)
+                                lines.Add(((x, y), (x + 10, y)));
+                            if (blocks.ContainsKey((x - 10, y)) && blocks[(x - 10, y)].EastStatus != 0)
+                                lines.Add(((x, y), (x, y + 10)));
+                            //    (100 * lengthY / lengthZ)
+                        }
+                        else
+                        {
 
+                        }
                     }
                 }
             }
-
-            //for(int i = 0; i < crossPoints.Count; i++)
-            //{
-            //    //if(blocks.ContainsKey(crossPoints[i]) && blocks[crossPoints[i]].SouthStatus != 0)                    
-
-            //         //100 *(lengthY * crossPoints[i].x + lengthX * crossPoints[i].y * - 1) / (c2 - c1);
-            //}
-
-
             return (int)(100 * (double)lengthY / lengthZ);
         }
 
