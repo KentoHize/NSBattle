@@ -287,7 +287,16 @@ namespace MazeResearch
             }
 
             if(target != (0, 0))
+            {
                 g.FillEllipse(Brushes.Red, target.x * multipier + multipier, target.y * multipier + multipier, 8 * multipier, 8 * multipier);
+                if((T1.X - target.x < 0 && T1.Y - target.y < 0) ||
+                   (T1.X - target.x > 0 && T1.Y - target.y > 0))
+                {
+                    g.DrawLine(redPen, (T1.X + 10) * multipier, T1.Y * multipier, (target.x + 10) * multipier, target.y * multipier);
+                    g.DrawLine(redPen, T1.X * multipier, (T1.Y + 10) * multipier, target.x * multipier, (target.y + 10) * multipier);
+                }
+            }
+                
 
             if (lines.Count != 0)
             {

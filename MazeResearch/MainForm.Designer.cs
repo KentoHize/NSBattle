@@ -176,7 +176,7 @@ namespace MazeResearch
             this.txtCrossY.Name = "txtCrossY";
             this.txtCrossY.Size = new System.Drawing.Size(61, 27);
             this.txtCrossY.TabIndex = 11;
-            this.txtCrossY.Text = "10";
+            this.txtCrossY.Text = "20";
             // 
             // lblw
             // 

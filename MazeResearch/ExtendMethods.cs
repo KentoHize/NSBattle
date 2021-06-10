@@ -18,6 +18,7 @@ namespace NSBattle
             int lengthY = blockA.Y - blockB.Y;
             double lengthZ = Math.Pow((lengthX * lengthX + lengthY * lengthY), 0.5);
             bool isSlash;
+            SortedList<int, int> blockLocation = new SortedList<int, int>();
 
             //lenngthY * x + lengthX * y 
             //eq = x + (lengthX / lengthY) y = A
@@ -48,7 +49,8 @@ namespace NSBattle
 
 
             crossPoints.Clear();
-            int c1, c2, c3;
+            lines.Clear();
+            int c1, c2, c3, c4, c5, c6;
             if((lengthX < 0 && lengthY >= 0) || (lengthX >= 0 && lengthY < 0))
             {                
                 c1 = lengthY * blockA.X + lengthX * blockA.Y * -1;
@@ -82,19 +84,50 @@ namespace NSBattle
                     }
 
                     c3 = lengthY * x + lengthX * y * -1;
+                    c4 = (int)(100 * (double)(c3 - c2) / (c1 - c2));
+                    //c4 = -1 * lengthX * x + 1 * lengthY * y * -1;
+                    //c4 * lengthX / lengthY = -1 * lengthX * lengthX /lengthY x + lengthX * y * -1
+                    //c4 * lengthX /lengthY - c5 = (-1 * lengthX * lengthX /lengthY - lengthY) * x
+                    //x = c4 * lengthX/ lengthY - c5 / (-1 * lengthX * lengthX / lengthY - lengthY); 
                     if ((c3 > c1 && c3 < c2) || (c3 > c2 && c3 < c1))
                     {
                         crossPoints.Add((x, y));
                         if (isSlash)
                         {
                             if (blocks.ContainsKey((x - 10, y - 10)) && blocks[(x - 10, y - 10)].SouthStatus != 0)
-                                lines.Add(((x - 10, y), (x, y)));
+                            {   
+                                c5 = lengthY * (x - 10) + lengthX * y * -1;
+                                c6 = (int)(100 * (double)(c5 - c2) / (c1 - c2));
+                                if(!blockLocation.ContainsKey(c6) || blockLocation[c6] < c4)
+                                    blockLocation[c6] = c4;
+                                //lines.Add((((int)((double)(c5 - c4) / 2 / lengthY), (int)((double)(c5 + c4) * -1 / 2 / lengthX)), (x, y)));
+                                lines.Add(((x, y), ((int)(x + (double)10 * lengthY / lengthZ), y - 1)));
+                            }
+                                
                             if (blocks.ContainsKey((x - 10, y - 10)) && blocks[(x - 10, y - 10)].EastStatus != 0)
-                                lines.Add(((x, y - 10), (x, y)));
+                            {   
+                                c5 = lengthY * x + lengthX * (y - 10) * -1;
+                                c6 = (int)(100 * (double)(c5 - c2) / (c1 - c2));
+                                if (!blockLocation.ContainsKey(c4) || blockLocation[c4] < c6)
+                                    blockLocation[c4] = c6;
+                            }
+                            
                             if (blocks.ContainsKey((x, y - 10)) && blocks[(x, y - 10)].SouthStatus != 0)
-                                lines.Add(((x, y), (x + 10, y)));
+                            {
+                                c5 = lengthY * (x + 10) + lengthX * y * -1;
+                                c6 = (int)(100 * (double)(c5 - c2) / (c1 - c2));
+                                if (!blockLocation.ContainsKey(c4) || blockLocation[c4] < c6)
+                                    blockLocation[c4] = c6;
+                            }
+                            //    lines.Add(((x, y), (x + 10, y)));
                             if (blocks.ContainsKey((x - 10, y)) && blocks[(x - 10, y)].EastStatus != 0)
-                                lines.Add(((x, y), (x, y + 10)));
+                            {
+                                c5 = lengthY * x + lengthX * (y + 10) * -1;
+                                c6 = (int)(100 * (double)(c5 - c2) / (c1 - c2));
+                                if (!blockLocation.ContainsKey(c6) || blockLocation[c6] < c4)
+                                    blockLocation[c6] = c4;
+                            }
+                            //    lines.Add(((x, y), (x, y + 10)));
                             //    (100 * lengthY / lengthZ)
                         }
                         else
@@ -104,7 +137,26 @@ namespace NSBattle
                     }
                 }
             }
-            return (int)(100 * (double)lengthY / lengthZ);
+
+            int position = 0;
+            int result = 0;
+            foreach(KeyValuePair<int, int> kvp in blockLocation)
+            {   
+                if(kvp.Key < position)
+                {
+                    result += (kvp.Value > 100 ? 100 : kvp.Value) - position;
+                    position = kvp.Value;
+                    
+                }
+                else
+                {
+                    result += (kvp.Value > 100 ? 100 : kvp.Value) - (kvp.Key < 0 ? 0 : kvp.Key);
+                    position = kvp.Value;
+                }
+                if (position >= 100)
+                    break;
+            }
+            return result;
         }
 
         public static List<(int, int)> GetRoute(this SortedDictionary<(int, int), Block> blocks, Area area, int X, int Y)
