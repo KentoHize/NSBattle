@@ -10,6 +10,19 @@ namespace NSBattle
     //第二條路徑必然有格子不在清單A之內，得清單B
     //第三條路徑必然有格子不在清單A、B，以此類推
 
+    public enum Direction
+    {
+        None = 0,
+        North,
+        NorthEast,
+        East,
+        SouthEast,
+        South,        
+        SouthWest,
+        West,
+        NorthWest,
+    }
+
     public static class ExtendMethods
     {
         public static int GetConcealment(this SortedDictionary<(int, int), Block> blocks, Area area, Block blockA, Block blockB, List<(int x, int y)> crossPoints, List<((int x, int y) a, (int x, int y) b)> lines)
@@ -161,50 +174,87 @@ namespace NSBattle
 
         public static List<(int, int)> GetRoute(this SortedDictionary<(int, int), Block> blocks, Area area, int X, int Y)
         {
+            //preferDirection
+            
+
             return null;
+        }
+
+        public static Direction GetTargetDirection(Block source, Block target)
+        {
+            if (target.X == source.X)
+            {
+                if (target.Y > source.Y)
+                    return Direction.South;
+                else if (target.Y < source.Y)
+                    return Direction.North;
+                else
+                    return Direction.None;
+            }
+            else if(target.Y == source.Y)
+            {
+                if (target.X > source.X)
+                    return Direction.East;
+                else
+                    return Direction.West;
+            }
+            else if(target.X > source.X)
+            {
+                if (target.Y > source.Y)
+                    return Direction.SouthEast;
+                else
+                    return Direction.NorthEast;
+            }
+            else
+            {
+                if (target.Y > source.Y)
+                    return Direction.SouthWest;
+                else
+                    return Direction.NorthWest;
+            }
         }
 
         public static bool BlockNeedExplore(this SortedDictionary<(int, int), Block> blocks, Area area, SortedDictionary<(int, int), Block> visibleBlocks, Block checkBlock)
         {
             Block target;
-            if ((blocks.MayGoBlock(area, checkBlock, 'n', out target) && !visibleBlocks.ContainsValue(target)) ||
-                (blocks.MayGoBlock(area, checkBlock, 'w', out target) && !visibleBlocks.ContainsValue(target)) ||
-                (blocks.MayGoBlock(area, checkBlock, 's', out target) && !visibleBlocks.ContainsValue(target)) ||
-                (blocks.MayGoBlock(area, checkBlock, 'e', out target) && !visibleBlocks.ContainsValue(target)))
+            if ((blocks.MayGoBlock(area, checkBlock, Direction.North, out target) && !visibleBlocks.ContainsValue(target)) ||
+                (blocks.MayGoBlock(area, checkBlock, Direction.West, out target) && !visibleBlocks.ContainsValue(target)) ||
+                (blocks.MayGoBlock(area, checkBlock, Direction.South, out target) && !visibleBlocks.ContainsValue(target)) ||
+                (blocks.MayGoBlock(area, checkBlock, Direction.East, out target) && !visibleBlocks.ContainsValue(target)))
                 return true;
             return false;
-        }
+        }        
 
-        private static char SubDirection(char direction, bool getFirst = true)
+        private static Direction SubDirection(Direction direction, bool getFirst = true)
         {
             switch (direction)
             {
-                case 'n':
+                case Direction.North:
                     if (getFirst)
-                        return 'w';
+                        return Direction.West;
                     else
-                        return 'e';
-                case 's':
+                        return Direction.East;
+                case Direction.South:
                     if (getFirst)
-                        return 'e';
+                        return Direction.East;
                     else
-                        return 'w';
-                case 'e':
+                        return Direction.West;
+                case Direction.East:
                     if (getFirst)
-                        return 'n';
+                        return Direction.North;
                     else
-                        return 's';
-                case 'w':
+                        return Direction.South;
+                case Direction.West:
                     if (getFirst)
-                        return 's';
+                        return Direction.South;
                     else
-                        return 'n';
+                        return Direction.North;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction));
             }
         }
 
-        public static void CheckVisibleBlock(this SortedDictionary<(int, int), Block> blocks, Area area, SortedDictionary<(int, int), Block> visibleBlocks, Block checkBlock, char mainDirection = ' ', char subDirection = ' ', int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
+        public static void CheckVisibleBlock(this SortedDictionary<(int, int), Block> blocks, Area area, SortedDictionary<(int, int), Block> visibleBlocks, Block checkBlock, Direction mainDirection = Direction.None, Direction subDirection = Direction.None, int preMainTimes = 0, int repeatMainTimes = 0, int repeatMainTimesAtLast = 0)
         {
             Block target;
             if (!visibleBlocks.ContainsKey((checkBlock.X, checkBlock.Y)))
@@ -212,21 +262,21 @@ namespace NSBattle
 
             switch (mainDirection)
             {
-                case ' ':
-                    if (blocks.MayGoBlock(area, checkBlock, 'n', out target))
-                        blocks.CheckVisibleBlock(area, visibleBlocks, target, 'n', ' ', 1);
-                    if (blocks.MayGoBlock(area, checkBlock, 's', out target))
-                        blocks.CheckVisibleBlock(area, visibleBlocks, target, 's', ' ', 1);
-                    if (blocks.MayGoBlock(area, checkBlock, 'w', out target))
-                        blocks.CheckVisibleBlock(area, visibleBlocks, target, 'w', ' ', 1);
-                    if (blocks.MayGoBlock(area, checkBlock, 'e', out target))
-                        blocks.CheckVisibleBlock(area, visibleBlocks, target, 'e', ' ', 1);
+                case Direction.None:
+                    if (blocks.MayGoBlock(area, checkBlock, Direction.North, out target))
+                        blocks.CheckVisibleBlock(area, visibleBlocks, target, Direction.North, Direction.None, 1);
+                    if (blocks.MayGoBlock(area, checkBlock, Direction.South, out target))
+                        blocks.CheckVisibleBlock(area, visibleBlocks, target, Direction.South, Direction.None, 1);
+                    if (blocks.MayGoBlock(area, checkBlock, Direction.West, out target))
+                        blocks.CheckVisibleBlock(area, visibleBlocks, target, Direction.West, Direction.None, 1);
+                    if (blocks.MayGoBlock(area, checkBlock, Direction.East, out target))
+                        blocks.CheckVisibleBlock(area, visibleBlocks, target, Direction.East, Direction.None, 1);
                     break;
                 default:
-                    if (subDirection == ' ')
+                    if (subDirection == Direction.None)
                     {
                         if (blocks.MayGoBlock(area, checkBlock, mainDirection, out target))
-                            blocks.CheckVisibleBlock(area, visibleBlocks, target, mainDirection, ' ', preMainTimes + 1);
+                            blocks.CheckVisibleBlock(area, visibleBlocks, target, mainDirection, Direction.None, preMainTimes + 1);
                         if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection), out target))
                             blocks.CheckVisibleBlock(area, visibleBlocks, target, mainDirection, SubDirection(mainDirection), preMainTimes);
                         if (blocks.MayGoBlock(area, checkBlock, SubDirection(mainDirection, false), out target))
@@ -262,33 +312,33 @@ namespace NSBattle
             }
         }
 
-        public static bool MayGoBlock(this SortedDictionary<(int, int), Block> blocks, Area area, Block checkBlock, char direction, out Block targetBlock)
+        public static bool MayGoBlock(this SortedDictionary<(int, int), Block> blocks, Area area, Block checkBlock, Direction direction, out Block targetBlock)
         {
             targetBlock = null;
             switch (direction)
             {
-                case 'n':
+                case Direction.North:
                     if (checkBlock.Y != 0 && blocks[(checkBlock.X, checkBlock.Y - 10)].SouthStatus == 0)
                     {
                         targetBlock = blocks[(checkBlock.X, checkBlock.Y - 10)];
                         return true;
                     }
                     break;
-                case 'e':
+                case Direction.East:
                     if (checkBlock.X != area.Width && checkBlock.EastStatus == 0)
                     {
                         targetBlock = blocks[(checkBlock.X + 10, checkBlock.Y)];
                         return true;
                     }
                     break;
-                case 's':
+                case Direction.South:
                     if (checkBlock.Y != area.Length && checkBlock.SouthStatus == 0)
                     {
                         targetBlock = blocks[(checkBlock.X, checkBlock.Y + 10)];
                         return true;
                     }
                     break;
-                case 'w':
+                case Direction.West:
                     if (checkBlock.X != 0 && blocks[(checkBlock.X - 10, checkBlock.Y)].EastStatus == 0)
                     {
                         targetBlock = blocks[(checkBlock.X - 10, checkBlock.Y)];

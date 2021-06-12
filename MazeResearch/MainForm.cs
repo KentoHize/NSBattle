@@ -237,7 +237,7 @@ namespace MazeResearch
             if (g2 == null)
                 g2 = pnlCanvas.CreateGraphics();
             DrawToken();
-            DrawMap();            
+            DrawMap();
         }
 
         private void btnGoTo_Click(object sender, EventArgs e)

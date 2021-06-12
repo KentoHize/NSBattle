@@ -225,7 +225,6 @@ namespace MazeResearch
             this.txtTargetX.Size = new System.Drawing.Size(61, 27);
             this.txtTargetX.TabIndex = 16;
             this.txtTargetX.Text = "3";
-            this.txtTargetX.Visible = false;
             // 
             // txtTargetY
             // 
@@ -234,7 +233,6 @@ namespace MazeResearch
             this.txtTargetY.Size = new System.Drawing.Size(61, 27);
             this.txtTargetY.TabIndex = 17;
             this.txtTargetY.Text = "3";
-            this.txtTargetY.Visible = false;
             // 
             // btnCalculateConcealment
             // 

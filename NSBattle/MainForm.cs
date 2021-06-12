@@ -93,8 +93,7 @@ namespace NSBattle
             g.DrawLine(defaultPen, new Point(0, 0), new Point(area.Length, 0));
             g.DrawLine(defaultPen, new Point(area.Length, 0), new Point(area.Length, area.Width));
             g.DrawLine(defaultPen, new Point(0, area.Width), new Point(area.Length, area.Width));
-            g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width));
-            //g.DrawLine(defaultPen) area.Length
+            g.DrawLine(defaultPen, new Point(0, 0), new Point(0, area.Width));            
         }
     }
 }
