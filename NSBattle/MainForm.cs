@@ -13,6 +13,9 @@ using Aritiafel.Locations.StorageHouse;
 
 namespace NSBattle
 {
+    //主指令
+    //副指令
+
     public partial class MainForm : Form
     {
         public string DataPath =  @"C:\Programs\WinForm\NSBattle\NSBattle\Data\";

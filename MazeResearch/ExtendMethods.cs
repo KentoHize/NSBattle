@@ -172,6 +172,24 @@ namespace NSBattle
             return result;
         }
 
+        //public static List<Block> GoToBlock(this SortedDictionary<(int, int), Block> blocks, Area area, SortedDictionary<(int, int), Block> visibileBlocks, Block self, Block target)
+        //{
+        //    blocks.CheckVisibleBlock(area, visibileBlocks, self);
+        //    if (visibileBlocks.ContainsValue(target))
+        //    {
+
+        //    } 
+        //    else
+        //    {
+                
+        //    }
+        //}
+
+        //public static void Explore(SortedDictionary<(int, int), Block> blocks, Area area, SortedDictionary<(int, int), Block> visibileBlocks, Block self, Block target)
+        //{
+
+        //}
+
         public static List<(int, int)> GetRoute(this SortedDictionary<(int, int), Block> blocks, Area area, int X, int Y)
         {
             //preferDirection

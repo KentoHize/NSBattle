@@ -242,7 +242,8 @@ namespace MazeResearch
 
         private void btnGoTo_Click(object sender, EventArgs e)
         {
-            var route = blocks.GetRoute(area, Convert.ToInt32(txtTargetX.Text), Convert.ToInt32(txtTargetY.Text));
+            //var route = blocks.GetRoute(area, Convert.ToInt32(txtTargetX.Text), Convert.ToInt32(txtTargetY.Text));
+            //blocks.GoToBlock(area, visibleBlocksA, blocks[(T1.X, T1.Y)], blocks[(Convert.ToInt32(txtTargetX.Text), Convert.ToInt32(txtTargetY.Text))]);
             
         }
 

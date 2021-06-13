@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace NSBattle
 {
-    public class Area
+    public class Team
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
-        public int Length { get; set; }
-        public int Width { get; set; }
+        public SortedDictionary<(int x, int y), Block> VisibleBlocks { get; set; }
     }
 }
