@@ -29,21 +29,22 @@ namespace NSBattle
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlCanvas = new System.Windows.Forms.Panel();
+            this.pnlMap = new System.Windows.Forms.Panel();
             this.btnStartTest = new System.Windows.Forms.Button();
             this.btnLoadArea1 = new System.Windows.Forms.Button();
+            this.pnlMiniMap = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // pnlCanvas
+            // pnlMap
             // 
-            this.pnlCanvas.Location = new System.Drawing.Point(12, 12);
-            this.pnlCanvas.Name = "pnlCanvas";
-            this.pnlCanvas.Size = new System.Drawing.Size(1274, 764);
-            this.pnlCanvas.TabIndex = 0;
+            this.pnlMap.Location = new System.Drawing.Point(12, 12);
+            this.pnlMap.Name = "pnlMap";
+            this.pnlMap.Size = new System.Drawing.Size(1000, 1000);
+            this.pnlMap.TabIndex = 0;
             // 
             // btnStartTest
             // 
-            this.btnStartTest.Location = new System.Drawing.Point(223, 782);
+            this.btnStartTest.Location = new System.Drawing.Point(1222, 563);
             this.btnStartTest.Name = "btnStartTest";
             this.btnStartTest.Size = new System.Drawing.Size(205, 43);
             this.btnStartTest.TabIndex = 1;
@@ -53,7 +54,7 @@ namespace NSBattle
             // 
             // btnLoadArea1
             // 
-            this.btnLoadArea1.Location = new System.Drawing.Point(12, 782);
+            this.btnLoadArea1.Location = new System.Drawing.Point(1222, 514);
             this.btnLoadArea1.Name = "btnLoadArea1";
             this.btnLoadArea1.Size = new System.Drawing.Size(205, 43);
             this.btnLoadArea1.TabIndex = 2;
@@ -61,14 +62,22 @@ namespace NSBattle
             this.btnLoadArea1.UseVisualStyleBackColor = true;
             this.btnLoadArea1.Click += new System.EventHandler(this.btnLoadArea1_Click);
             // 
+            // pnlMiniMap
+            // 
+            this.pnlMiniMap.Location = new System.Drawing.Point(1027, 612);
+            this.pnlMiniMap.Name = "pnlMiniMap";
+            this.pnlMiniMap.Size = new System.Drawing.Size(400, 400);
+            this.pnlMiniMap.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1326, 837);
+            this.ClientSize = new System.Drawing.Size(1592, 1020);
+            this.Controls.Add(this.pnlMiniMap);
             this.Controls.Add(this.btnLoadArea1);
             this.Controls.Add(this.btnStartTest);
-            this.Controls.Add(this.pnlCanvas);
+            this.Controls.Add(this.pnlMap);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.ResumeLayout(false);
@@ -77,9 +86,10 @@ namespace NSBattle
 
         #endregion
 
-        private System.Windows.Forms.Panel pnlCanvas;
+        private System.Windows.Forms.Panel pnlMap;
         private System.Windows.Forms.Button btnStartTest;
         private System.Windows.Forms.Button btnLoadArea1;
+        private System.Windows.Forms.Panel pnlMiniMap;
     }
 }
 

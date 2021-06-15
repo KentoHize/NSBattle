@@ -1,6 +1,6 @@
 using System;
 
-namespace NSBattle
+namespace NinjaSato
 {
     public class Block
     {

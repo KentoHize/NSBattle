@@ -24,7 +24,7 @@ namespace NSBattle
         Area area;
         List<ItemPrototype> itemPrototypes;
         List<Object> objects;
-        List<Wall> walls;
+        
         List<Character> characters;
         public MainForm()
         {
@@ -69,16 +69,7 @@ namespace NSBattle
                     string s = sr.ReadToEnd();
                     objects = JsonSerializer.Deserialize<List<Object>>(s, jso);
                 }
-            }
-
-            using (FileStream fs = new FileStream(DataPath + @"TestData1\Wall.json", FileMode.Open))
-            {
-                using (StreamReader sr = new StreamReader(fs))
-                {
-                    string s = sr.ReadToEnd();
-                    walls = JsonSerializer.Deserialize<List<Wall>>(s, jso);
-                }
-            }
+            }          
 
             using (FileStream fs = new FileStream(DataPath + @"TestData1\Character.json", FileMode.Open))
             {
@@ -88,7 +79,7 @@ namespace NSBattle
                     characters = JsonSerializer.Deserialize<List<Character>>(s, jso);
                 }
             }
-            DrawMap(pnlCanvas.CreateGraphics());
+            DrawMap(pnlMap.CreateGraphics());
         }
 
         private void DrawMap(Graphics g)
